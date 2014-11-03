@@ -2,3 +2,24 @@ touch zucker_notes.txt
 git add zucker_notes.txt
 git commit -m zucker_notes.txt
 git push -u origin master
+
+Store questions and users scores in database
+query database with PL/SQL (java)
+
+Client Side, Server Side, Database
+
+*ask if GUI can be a web interface or if it has to be a JAVA GUI
+
+1st step is creating a skeleton 
+
+1st step is getting client, server, and database to connect
+- client and server will be able communicate, and the server will be able to query the database
+2nd step getting the server to send questions
+3rd step Server “contestant countdown” (i.e. 60 seconds to answer the question or you get booted)
+4th step keeping clients score
+5th step GUI 
+
+**decrease timeout time (make it more difficult to stay in)
+10 questions with sudden death tie breaker
+
+**vote on a category of questions in the pregame  
