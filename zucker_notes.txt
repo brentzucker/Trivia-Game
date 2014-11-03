@@ -1,0 +1,4 @@
+touch zucker_notes.txt
+git add zucker_notes.txt
+git commit -m zucker_notes.txt
+git push -u origin master
