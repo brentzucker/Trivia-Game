@@ -23,3 +23,5 @@ Client Side, Server Side, Database
 10 questions with sudden death tie breaker
 
 **vote on a category of questions in the pregame  
+
+***maybe a chat room, game, and voting simultaneously 
