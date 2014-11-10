@@ -2,6 +2,9 @@ import java.io.DataInputStream;
 import java.io.PrintStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.io.*;
+import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class TriviaGameClientThread extends Thread {
@@ -14,11 +17,12 @@ public class TriviaGameClientThread extends Thread {
 	private Question[] question_list;
 	private boolean ready = false;
 	
-	public TriviaGameClientThread(Socket client_socket, TriviaGameClientThread[] threads){
+	public TriviaGameClientThread(Socket client_socket, TriviaGameClientThread[] threads) throws IOException
+	{
 		this.client_socket = client_socket;
 		this.threads= threads;
 		
-		question_list = buildQuestionList(1);
+		question_list = buildQuestionList();
 	}
 	
 	public void run(){
@@ -60,11 +64,11 @@ public class TriviaGameClientThread extends Thread {
 				
 				if(ready_to_play){
 					for(int i = 0; i < question_list.length; i++){
-						output_stream.println(question_list[i].getQuestion());
-						output_stream.println("A." + question_list[i].getAnswerA());
-						output_stream.println("B." + question_list[i].getAnswerB());
-						output_stream.println("C." + question_list[i].getAnswerC());
-						output_stream.println("D." + question_list[i].getAnswerD());
+						output_stream.println(question_list[i].question);
+						output_stream.println("A." + question_list[i].choices[0]);
+						output_stream.println("B." + question_list[i].choices[1]);
+						output_stream.println("C." + question_list[i].choices[2]);
+						output_stream.println("D." + question_list[i].choices[3]);
 						
 						if(question_list[i].isCorrect(input_stream.readChar())){
 							output_stream.println("Correct!");
@@ -102,11 +106,26 @@ public class TriviaGameClientThread extends Thread {
 	/*
 	 * This is where we will pull question form database and put them into an array to be showed to players.
 	 */
-	public Question[] buildQuestionList(int number_of_questions){
+	public Question[] buildQuestionList()throws IOException
+	{
+		File file = new File("question_set.txt");
+		Scanner inputFile = new Scanner(file);
+
 		//TODO
-		Question[] questions = new Question[1];
-		String [] question_string = {"What color is the sky?", "Magenta", "Green", "Blue", "Black"};
-		questions[0] = new Question(question_string, 'C');
+		//Question[] questions = new Question[number_of_questions];
+		
+		ArrayList<Question> question_array_list = new ArrayList<Question>();
+
+		while(inputFile.hasNextLine())
+		{
+			String question = inputFile.nextLine();
+			String[] choices = inputFile.nextLine().split(", ");
+			char answer = inputFile.nextLine().charAt(0);
+
+			question_array_list.add(new Question(question, choices, answer));
+		}
+
+		Question[] questions = question_array_list.toArray(new Question[question_array_list.size()]);
 		
 		return questions;
 	}
@@ -114,5 +133,4 @@ public class TriviaGameClientThread extends Thread {
 	public boolean isReady(){
 		return ready;
 	}
-			
 }
