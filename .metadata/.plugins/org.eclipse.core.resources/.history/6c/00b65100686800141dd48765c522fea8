@@ -1,0 +1,39 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+
+
+public class TriviaGameServer {
+	
+	private static Gson gson = new Gson();
+	private static BufferedReader reader = null;
+	private static TriviaGameServerConfig server_config;
+	
+	public static void main(String[] args){
+		server_config = loadServerConfig();
+		System.out.println(server_config.getMaxClients() +" " + server_config.getPort());
+	}
+	
+	/* 
+	 * Reads file TriviaGameServer.config for a JSON string and the uses that to return a TriviaGameServerConfig object
+	 */
+	public static TriviaGameServerConfig loadServerConfig(){
+		String json_string = "";
+		try{
+			reader = new BufferedReader(new FileReader("config/TriviaGameServer.json"));
+			
+			for(String temp = reader.readLine(); temp !=null; temp = reader.readLine()){
+				json_string = json_string + temp;
+			}
+			
+			reader.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		return gson.fromJson(json_string, TriviaGameServerConfig.class);
+	}
+	
+}

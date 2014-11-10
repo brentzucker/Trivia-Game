@@ -1,0 +1,24 @@
+import java.io.DataInputStream;
+import java.io.PrintStream;
+import java.io.IOException;
+import java.net.Socket;
+
+
+public class TriviaGameClientThread extends Thread {
+	
+	private DataInputStream input_stream = null;
+	private PrintStream output_stream = null;
+	private Socket client_socket = null;
+	private final TriviaGameClientThread[] threads;
+	private int max_clients;
+	
+	public TriviaGameClientThread(Socket client_socket, TriviaGameClientThread[] threads){
+		this.client_socket = client_socket;
+		this.threads= threads;
+	}
+	
+	public void runt(){
+		
+	}
+			
+}
