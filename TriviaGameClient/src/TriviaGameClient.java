@@ -1,5 +1,6 @@
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -10,19 +11,19 @@ public class TriviaGameClient implements Runnable{
 	
 	private static Socket client_socket = null;
 	private static PrintStream output_stream = null;
-	private static DataInputStream input_stream = null;
+	private static BufferedReader input_stream = null;
 	
 	private static boolean is_closed = false;
 	
 	public static void main(String[] args){
 		int port = 9000;
-		String host = "168.16.201.163";
+		String host = "localhost";
 		
 		try{
 			client_socket = new Socket(host, port);
 			
 			output_stream = new PrintStream(client_socket.getOutputStream());
-			input_stream = new DataInputStream(client_socket.getInputStream());
+			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
 			
 			 if (client_socket != null && output_stream != null && input_stream != null){
 				 new Thread(new TriviaGameClient()).start();
@@ -44,7 +45,6 @@ public class TriviaGameClient implements Runnable{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void run(){
 		String response;
 		
