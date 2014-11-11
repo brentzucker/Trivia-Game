@@ -14,6 +14,7 @@ public class TriviaGameClientThread extends Thread{
 		private Socket client_socket = null;
 		private final TriviaGameClientThread[] threads;
 		
+		public static int free_threads = server_config.getMaxClients();
 	
 	public TriviaGameClientThread(Socket client_socket, TriviaGameClientThread[] threads){
 		this.client_socket = client_socket;
@@ -23,8 +24,9 @@ public class TriviaGameClientThread extends Thread{
 	public void run(){
 		try{
 			System.out.println("New thread started");
-			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
-			output_stream = new PrintStream(client_socket.getOutputStream());
+			free_threads --;
+			System.out.println((input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()))) == null);
+			System.out.println((output_stream = new PrintStream(client_socket.getOutputStream())) == null);
 			
 			System.out.println("Server: Welcome to our server. Future home of the Cool Kids Trivia Game!");
 			output_stream.println("Server: Welcome to our server. Future home of the Cool Kids Trivia Game!");
@@ -34,6 +36,7 @@ public class TriviaGameClientThread extends Thread{
 			for(TriviaGameClientThread thread: threads){
 				if(thread == this){
 					System.out.println("Thread removed.");
+					free_threads++;
 					thread = null;
 				}
 			}

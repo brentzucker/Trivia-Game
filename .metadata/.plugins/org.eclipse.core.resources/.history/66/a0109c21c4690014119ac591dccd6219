@@ -33,14 +33,14 @@ public class TriviaGameServer{
 				
 				int count;
 				
-				//TODO Replace for loop and array with circular list.
 				for(count = 0; count < server_config.getMaxClients(); count++){
 					if(threads[count] == null){
 						(threads[count] = new TriviaGameClientThread(client_socket, threads)).start();
+						System.out.println(TriviaGameClientThread.free_threads+ " Threads available " + count);
 						break;
 					}
 				}
-				if(count == server_config.getMaxClients()){
+				if(count >= TriviaGameClientThread.free_threads){
 					PrintStream output_stream = new PrintStream(client_socket.getOutputStream());
 					
 					output_stream.println("Game is full. Try Later.");

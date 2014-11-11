@@ -31,9 +31,8 @@ public class TriviaGameServer{
 				client_socket = server_socket.accept();
 				System.out.println(client_socket.getInetAddress() +":" + client_socket.getPort() + " has connected.");
 				
-				int count;
+				int count = 0;
 				
-				//TODO Replace for loop and array with circular list.
 				for(count = 0; count < server_config.getMaxClients(); count++){
 					if(threads[count] == null){
 						(threads[count] = new TriviaGameClientThread(client_socket, threads)).start();
