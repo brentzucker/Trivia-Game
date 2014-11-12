@@ -32,8 +32,9 @@ public class TriviaGameServer{
 		//Start threads stack
 		for(int i = 0; i < server_config.getMaxClients(); i++){
 			
-			helper = null;
-			threads.push(helper);
+			TriviaGameClientThread thread = null;
+			
+			threads.push(thread);
 		}
 		
 		// Enter infinite running loop for accepting new connections and running the game.
