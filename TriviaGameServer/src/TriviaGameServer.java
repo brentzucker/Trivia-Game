@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Stack;
 
 
 
@@ -12,10 +14,12 @@ public class TriviaGameServer{
 	
 	private static ServerSocket server_socket = null;
 	private static Socket client_socket = null;
-	private static final TriviaGameClientThread[] threads = new TriviaGameClientThread[server_config.getMaxClients()];
+	
+	public static final Stack<TriviaGameClientThread> threads = new Stack<TriviaGameClientThread>();
+	public static final LinkedList<TriviaGameClientThread> running_threads = new LinkedList<TriviaGameClientThread>();
 	
 	public static void main(String[] args){
-		
+		TriviaGameClientThread helper;
 		
 		//Initialize server_socket to a new ServerSocket at the port from the configuration.
 		try{
@@ -25,27 +29,33 @@ public class TriviaGameServer{
 			e.printStackTrace();
 		}
 		
+		//Start threads stack
+		for(int i = 0; i < server_config.getMaxClients(); i++){
+			
+			TriviaGameClientThread thread = null;
+			
+			threads.push(thread);
+		}
+		
 		// Enter infinite running loop for accepting new connections and running the game.
 		while(true){
 			try{
 				client_socket = server_socket.accept();
 				System.out.println(client_socket.getInetAddress() +":" + client_socket.getPort() + " has connected.");
 				
-				int count;
-				
-				//TODO Replace for loop and array with circular list.
-				for(count = 0; count < server_config.getMaxClients(); count++){
-					if(threads[count] == null){
-						(threads[count] = new TriviaGameClientThread(client_socket, threads)).start();
-						break;
-					}
-				}
-				if(count == server_config.getMaxClients()){
+				if(threads.isEmpty()){
 					PrintStream output_stream = new PrintStream(client_socket.getOutputStream());
 					
 					output_stream.println("Game is full. Try Later.");
 					output_stream.close();
 					client_socket.close();
+				}
+				
+				else{
+					helper = threads.pop();
+					helper = new TriviaGameClientThread(client_socket);
+					running_threads.add(helper);
+					helper.run();
 				}
 			}catch(IOException e){
 				e.printStackTrace();

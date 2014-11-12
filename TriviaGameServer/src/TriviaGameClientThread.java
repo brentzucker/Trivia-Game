@@ -12,15 +12,14 @@ public class TriviaGameClientThread extends Thread{
 		private BufferedReader input_stream = null;
 		private PrintStream output_stream = null;
 		private Socket client_socket = null;
-		private final TriviaGameClientThread[] threads;
 		
 	
-	public TriviaGameClientThread(Socket client_socket, TriviaGameClientThread[] threads){
+	public TriviaGameClientThread(Socket client_socket){
 		this.client_socket = client_socket;
-		this.threads = threads;
 	}
 	
 	public void run(){
+		TriviaGameClientThread helper;
 		try{
 			System.out.println("New thread started");
 			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
@@ -31,10 +30,15 @@ public class TriviaGameClientThread extends Thread{
 			System.out.println("Server: Bye");
 			output_stream.println("Server: Bye");
 			
-			for(TriviaGameClientThread thread: threads){
+			//Remove thread and push null TriviaGameClientThread to thread pool
+			for(TriviaGameClientThread thread: TriviaGameServer.running_threads){
 				if(thread == this){
+					TriviaGameServer.running_threads.remove(thread);
+					helper = null;
+					TriviaGameServer.threads.push(helper);
 					System.out.println("Thread removed.");
-					thread = null;
+					
+					
 				}
 			}
 			
