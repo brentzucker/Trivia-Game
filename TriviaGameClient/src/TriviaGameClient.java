@@ -12,6 +12,7 @@ public class TriviaGameClient implements Runnable{
 	private static Socket client_socket = null;
 	private static PrintStream output_stream = null;
 	private static BufferedReader input_stream = null;
+	private static BufferedReader output_line = null;
 	
 	private static boolean is_closed = false;
 	
@@ -25,14 +26,16 @@ public class TriviaGameClient implements Runnable{
 			output_stream = new PrintStream(client_socket.getOutputStream());
 			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
 			
+			output_line = new BufferedReader(new InputStreamReader(System.in));
+			
 			 if (client_socket != null && output_stream != null && input_stream != null){
 				 new Thread(new TriviaGameClient()).start();
 			 }
-			 
-			 
+			
 			while(! is_closed){
-				
+				output_stream.println(output_line.readLine().trim());
 			}
+				
 			 
 			 output_stream.close();
 			 input_stream.close();
@@ -52,8 +55,9 @@ public class TriviaGameClient implements Runnable{
 			while((response = input_stream.readLine()) != null){
 				System.out.println(response);
 				
-				if(response.equals("Server: Bye"))
+				if(response.equals("***END***"))
 					break;
+				
 			}
 			is_closed = true;
 			

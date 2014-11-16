@@ -20,15 +20,21 @@ public class TriviaGameClientThread extends Thread{
 	
 	public void run(){
 		TriviaGameClientThread helper;
+		String temp;
 		try{
 			System.out.println("New thread started");
 			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
 			output_stream = new PrintStream(client_socket.getOutputStream());
 			
-			System.out.println("Server: Welcome to our server. Future home of the Cool Kids Trivia Game!");
-			output_stream.println("Server: Welcome to our server. Future home of the Cool Kids Trivia Game!");
-			System.out.println("Server: Bye");
-			output_stream.println("Server: Bye");
+			output_stream.println("Hello, send me somthing.");
+			while((temp = input_stream.readLine()) != null){
+				System.out.println(temp);
+				if(temp.equals("/exit"))
+					break;
+			}
+			
+			
+			output_stream.println("***END***");
 			
 			//Remove thread and push null TriviaGameClientThread to thread pool
 			for(TriviaGameClientThread thread: TriviaGameServer.running_threads){
