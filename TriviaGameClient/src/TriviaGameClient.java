@@ -5,8 +5,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.swing.Timer;
+import javax.imageio.ImageIO;
 
 import javax.swing.*;
 
@@ -27,18 +27,19 @@ public class TriviaGameClient extends JFrame implements Runnable{
 	private static boolean is_closed = false;
    
 	public static JButton button1;
-   public static JButton button2;
+	public static JButton button2;
 	public static JButton button3;
 	public static JButton button4;
 	
 	public static JLabel question_messageLabel;
 	public static JLabel timer_messageLabel;
-   
-   public static JPanel south_panel;
-   
-   private static TimerTask myTask = null;
-   
-   public static int timer_count = 10;
+
+	int timer_count = 10;  //the current frame number
+	
+	int pause = 0; // length of time between each tick counting down (1 second)
+	int speed = 1000; //speed of every update
+	
+	Timer timer; //The timer counting down on each question
 
 	public TriviaGameClient()
 	{
@@ -52,7 +53,7 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		JPanel west_panel = new JPanel();
 		JPanel east_panel = new JPanel();
 		JPanel north_panel = new JPanel();
-		south_panel = new JPanel();
+		JPanel south_panel = new JPanel();
 		
 		String choice_A = client_choices[0];
 		String choice_B = client_choices[1];
@@ -60,12 +61,52 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		String choice_D = client_choices[3];
 		
 		question_messageLabel = new JLabel(client_question);
+		question_messageLabel.setFont(new Font("Serif", Font.BOLD, 28));
+		JLabel big_empty_label = new JLabel(" ");
+		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel = new JLabel("10");
+		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		
-		button1 = new JButton(choice_A);
-		button2 = new JButton(choice_B);
-		button3 = new JButton(choice_C);
-		button4 = new JButton(choice_D);
+		try //tries to find image for button
+		{
+			Image img = ImageIO.read(getClass().getResource("button.jpg"));
+			Image scaled_img = img.getScaledInstance( 400, 50, Image.SCALE_SMOOTH);
+			ImageIcon button_icon = new ImageIcon(scaled_img);
+			button1 = new JButton(choice_A, button_icon);
+			button2 = new JButton(choice_B, button_icon);
+			button3 = new JButton(choice_C, button_icon);
+			button4 = new JButton(choice_D, button_icon);
+			
+			button1.setHorizontalTextPosition(JButton.CENTER);
+			button1.setVerticalTextPosition(JButton.CENTER);
+			button2.setHorizontalTextPosition(JButton.CENTER);
+			button2.setVerticalTextPosition(JButton.CENTER);
+			button3.setHorizontalTextPosition(JButton.CENTER);
+			button3.setVerticalTextPosition(JButton.CENTER);
+			button4.setHorizontalTextPosition(JButton.CENTER);
+			button4.setVerticalTextPosition(JButton.CENTER);
+		}
+		catch(IOException ex)
+		{
+			
+		}
+		
+		
+		
+/*		
+		try 
+		{
+//		    Image img = ImageIO.read(getClass().getResource("button.jpg"));
+		    //button1.setIcon(new ImageIcon(img));
+		    button2.setIcon(new ImageIcon(img));
+		    button3.setIcon(new ImageIcon(img));
+		    button4.setIcon(new ImageIcon(img));
+		}
+		catch (IOException ex) 
+		{
+			System.out.println("Didn't find pic.");
+		  }
+		  */
       
 		button1.addActionListener(new ChoiceAListener());
 		button2.addActionListener(new ChoiceBListener());
@@ -73,13 +114,16 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		button4.addActionListener(new ChoiceDListener());
 		
 		south_panel.setLayout(new GridLayout(2,2));
+		west_panel.setLayout(new GridLayout(3,1));
+		
+		west_panel.add(big_empty_label);
 		west_panel.add(timer_messageLabel);
 		south_panel.add(button1);
 		south_panel.add(button2);
 		south_panel.add(button3);
 		south_panel.add(button4);
 		
-		center_panel.add(question_messageLabel);
+		north_panel.add(question_messageLabel);
 		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
@@ -116,8 +160,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				output_stream.println(input);
 			}
 			
-			//new TriviaGameClient();
-				 
 			 output_stream.close();
 			 input_stream.close();
 			 client_socket.close();
@@ -173,15 +215,14 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				
 				if(count%5 == 0)
 				{
-					Timer timer = new Timer();
-					myTask = new MyTimerTask(10, new Runnable(){
-						public void run()
-						{
-							System.exit(0);
-						}
-					});
-					timer.scheduleAtFixedRate(myTask, 1000, 1000);
+					//do this every second 10..0
 					//timer_messageLabel.setText(""+timer_count--);
+					
+					//call when message text is being update
+					//Set up timer to drive animation events.
+			        timer = new Timer(speed, new timerListener());
+			        timer.setInitialDelay(pause);
+					timer.start(); 
 
 					count = 0;
 				}
@@ -229,29 +270,46 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		}
 	}
 	
-	private class MyTimerTask extends TimerTask 
+	//Handle timer event. Update the timer_count (time left on question) and the
+    //offset.  If it's the last frame, restart the timer to get a long
+    //pause between loops.
+	
+	private class timerListener implements ActionListener
 	{
-		   private int count;
-		   private Runnable doWhenDone;
+		public void actionPerformed(ActionEvent e) 
+	    {
+	        //timer_count--;
 
-		   public MyTimerTask(int count, Runnable doWhenDone) {
-		      this.count = count;
-		      this.doWhenDone = doWhenDone;
-		   }
+	        timer_messageLabel.setText(""+timer_count);
 
-		   @Override
-		   public void run() {
-		      timer_count--;
-		      timer_messageLabel.setText(""+timer_count);
-		      if (timer_count == 0) 
-		      {
-		    	 timer_count = 10;
-		         cancel();
-		         System.exit(0);
-		         //doWhenDone.run();
-		      }
-		   }
+	        if (timer_count == 0) 
+	        {
+	            timer_count = 10;
+	        }
+	        
+	        if(timer_count <= 3)
+	        {
+	        	timer_messageLabel.setForeground(Color.RED);
+	        }
+	        else
+	        	timer_messageLabel.setForeground(Color.BLACK);
 
+	        if (timer_count == 0) 
+	        {
+	            timer.restart();
+	        }
+	    }
+
+	    public void start() 
+	    {
+	        timer.restart();
+	    }
+
+	    public void stop() 
+	    {
+	        timer.stop();
+	    }
 	}
-
+    
+	
 }
