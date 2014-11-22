@@ -27,7 +27,7 @@ public class TriviaGameClient extends JFrame implements Runnable{
 	public static JButton button3;
 	public static JButton button4;
 	
-	public static JLabel question_messageLabel;
+	public static JLabel messageLabel;
    
    public static JPanel south_panel;
 
@@ -52,7 +52,7 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		String choice_C = client_choices[2];
 		String choice_D = client_choices[3];
 		
-		question_messageLabel = new JLabel(client_question);
+		messageLabel = new JLabel(client_question);
       
       
 		
@@ -72,7 +72,9 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		south_panel.add(button3);
 		south_panel.add(button4);
 		
-		center_panel.add(question_messageLabel);
+		center_panel.add(messageLabel);
+		
+		
 		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
@@ -133,32 +135,49 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				{
 					messageLabel.setText(response);
 					client_question = response;
+					count++;
 				}
 					
+				
 				if(response.startsWith("A:"))
 				{
 					button1.setText(response.substring(3));
 					client_choices[0] = response;
+					count++;
 				}
+					
 					
 				if(response.startsWith("B:"))
 				{
 					button2.setText(response.substring(3));
 					client_choices[1] = response;
+					count++;
 				}
+					
 					
 				if(response.startsWith("C:"))
 				{
 					button3.setText(response.substring(3));
 					client_choices[2] = response;
-				}	
+					count++;
+				}
+					
 					
 				if(response.startsWith("D:"))
 				{
-					button4.setText(response.substring(3));
+					button4.setText(response);
 					client_choices[3] = response;
+					count++;
 				}
 				
+				if(count == 5)
+				{
+					//new TriviaGameClient();
+               south_panel.revalidate();
+               south_panel.repaint();
+					count = 0;
+				}
+            
 				if(response.equals("***END***"))
 					break;
 				

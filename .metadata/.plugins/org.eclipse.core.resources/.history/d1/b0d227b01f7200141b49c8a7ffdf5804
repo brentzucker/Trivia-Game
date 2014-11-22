@@ -48,6 +48,7 @@ public class TriviaGameServer{
 		
 		//System.out.println(json);
 		
+		
 		// Enter infinite running loop for accepting new connections and running the game.
 		while(true){
 			try{

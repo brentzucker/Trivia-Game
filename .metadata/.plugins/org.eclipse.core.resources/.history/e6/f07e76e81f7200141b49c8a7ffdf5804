@@ -74,6 +74,8 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		
 		center_panel.add(question_messageLabel);
 		
+		
+		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
 		add(east_panel, BorderLayout.EAST);
