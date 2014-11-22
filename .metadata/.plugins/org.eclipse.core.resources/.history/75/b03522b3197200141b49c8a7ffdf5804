@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 
 
@@ -22,12 +21,10 @@ public class TriviaGameClient extends JFrame implements Runnable{
 	
 	private static boolean is_closed = false;
    
-	public static JButton button1;
-   	public static JButton button2;
+   public static JButton button1;
+   public static JButton button2;
 	public static JButton button3;
 	public static JButton button4;
-	
-	public static JLabel messageLabel;
    
    public static JPanel south_panel;
 
@@ -51,8 +48,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		String choice_B = client_choices[1];
 		String choice_C = client_choices[2];
 		String choice_D = client_choices[3];
-		
-		messageLabel = new JLabel(client_question);
       
       
 		
@@ -61,17 +56,10 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		button3 = new JButton(choice_C);
 		button4 = new JButton(choice_D);
       
-		button1.addActionListener(new ChoiceAListener());
-		button2.addActionListener(new ChoiceBListener());
-		button3.addActionListener(new ChoiceCListener());
-		button4.addActionListener(new ChoiceDListener());
-		
-		south_panel.add(button1);
+      south_panel.add(button1);
 		south_panel.add(button2);
 		south_panel.add(button3);
 		south_panel.add(button4);
-		
-		center_panel.add(messageLabel);
 		
 		
 		
@@ -108,7 +96,7 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				output_stream.println(input);
 			}
 			
-			//new TriviaGameClient();
+			new TriviaGameClient();
 				 
 			 output_stream.close();
 			 input_stream.close();
@@ -130,7 +118,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				
 				if(response.contains("?"))
 				{
-					messageLabel.setText(response);
 					client_question = response;
 					count++;
 				}
@@ -138,9 +125,9 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				
 				if(response.startsWith("A:"))
 				{
-					button1.setText(response);
-               //south_panel.revalidate();
-               //south_panel.repaint();
+               button1 = new JButton(response);
+               south_panel.revalidate();
+               south_panel.repaint();
 					client_choices[0] = response;
 					count++;
 				}
@@ -148,7 +135,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 					
 				if(response.startsWith("B:"))
 				{
-					button2.setText(response);
 					client_choices[1] = response;
 					count++;
 				}
@@ -156,7 +142,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 					
 				if(response.startsWith("C:"))
 				{
-					button3.setText(response);
 					client_choices[2] = response;
 					count++;
 				}
@@ -164,7 +149,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 					
 				if(response.startsWith("D:"))
 				{
-					button4.setText(response);
 					client_choices[3] = response;
 					count++;
 				}
@@ -185,38 +169,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 			
 		}catch(IOException e){
 			e.printStackTrace();
-		}
-	}
-	
-	private class ChoiceAListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			output_stream.println("A");
-		}
-	}
-	
-	private class ChoiceBListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			output_stream.println("B");
-		}
-	}
-	
-	private class ChoiceCListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			output_stream.println("C");
-		}
-	}
-	
-	private class ChoiceDListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			output_stream.println("D");
 		}
 	}
 

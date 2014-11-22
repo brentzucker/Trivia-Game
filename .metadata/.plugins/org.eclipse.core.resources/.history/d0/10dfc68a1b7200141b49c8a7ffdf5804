@@ -22,12 +22,10 @@ public class TriviaGameClient extends JFrame implements Runnable{
 	
 	private static boolean is_closed = false;
    
-	public static JButton button1;
-   	public static JButton button2;
+   public static JButton button1;
+   public static JButton button2;
 	public static JButton button3;
 	public static JButton button4;
-	
-	public static JLabel messageLabel;
    
    public static JPanel south_panel;
 
@@ -51,8 +49,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		String choice_B = client_choices[1];
 		String choice_C = client_choices[2];
 		String choice_D = client_choices[3];
-		
-		messageLabel = new JLabel(client_question);
       
       
 		
@@ -70,8 +66,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		south_panel.add(button2);
 		south_panel.add(button3);
 		south_panel.add(button4);
-		
-		center_panel.add(messageLabel);
 		
 		
 		
@@ -130,7 +124,6 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				
 				if(response.contains("?"))
 				{
-					messageLabel.setText(response);
 					client_question = response;
 					count++;
 				}
