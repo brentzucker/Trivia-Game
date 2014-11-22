@@ -5,7 +5,11 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 
 
@@ -28,17 +32,20 @@ public class TriviaGameClient extends JFrame implements Runnable{
 	public static JButton button4;
 	
 	public static JLabel question_messageLabel;
+	public static JLabel timer_messageLabel;
    
    public static JPanel south_panel;
+   
+   private static TimerTask myTask = null;
+   
+   public static int timer_count = 10;
 
 	public TriviaGameClient()
 	{
 		setTitle("Client GUI");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
+			
 		setLayout(new BorderLayout());
 		
 		JPanel center_panel = new JPanel();
@@ -53,8 +60,7 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		String choice_D = client_choices[3];
 		
 		question_messageLabel = new JLabel(client_question);
-      
-      
+		timer_messageLabel = new JLabel("10");
 		
 		button1 = new JButton(choice_A);
 		button2 = new JButton(choice_B);
@@ -67,6 +73,7 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		button4.addActionListener(new ChoiceDListener());
 		
 		south_panel.setLayout(new GridLayout(2,2));
+		west_panel.add(timer_messageLabel);
 		south_panel.add(button1);
 		south_panel.add(button2);
 		south_panel.add(button3);
@@ -131,32 +138,52 @@ public class TriviaGameClient extends JFrame implements Runnable{
 				
 				if(response.contains("?"))
 				{
-					messageLabel.setText(response);
+					question_messageLabel.setText(response);
 					client_question = response;
+					count++;
 				}
 					
 				if(response.startsWith("A:"))
 				{
 					button1.setText(response.substring(3));
 					client_choices[0] = response;
+					count++;
 				}
 					
 				if(response.startsWith("B:"))
 				{
 					button2.setText(response.substring(3));
 					client_choices[1] = response;
+					count++;
 				}
 					
 				if(response.startsWith("C:"))
 				{
 					button3.setText(response.substring(3));
 					client_choices[2] = response;
+					count++;
 				}	
 					
 				if(response.startsWith("D:"))
 				{
 					button4.setText(response.substring(3));
 					client_choices[3] = response;
+					count++;
+				}
+				
+				if(count%5 == 0)
+				{
+					Timer timer = new Timer();
+					myTask = new MyTimerTask(10, new Runnable(){
+						public void run()
+						{
+							System.exit(0);
+						}
+					});
+					timer.scheduleAtFixedRate(myTask, 1000, 1000);
+					//timer_messageLabel.setText(""+timer_count--);
+
+					count = 0;
 				}
 				
 				if(response.equals("***END***"))
@@ -200,6 +227,31 @@ public class TriviaGameClient extends JFrame implements Runnable{
 		{
 			output_stream.println("D");
 		}
+	}
+	
+	private class MyTimerTask extends TimerTask 
+	{
+		   private int count;
+		   private Runnable doWhenDone;
+
+		   public MyTimerTask(int count, Runnable doWhenDone) {
+		      this.count = count;
+		      this.doWhenDone = doWhenDone;
+		   }
+
+		   @Override
+		   public void run() {
+		      timer_count--;
+		      timer_messageLabel.setText(""+timer_count);
+		      if (timer_count == 0) 
+		      {
+		    	 timer_count = 10;
+		         cancel();
+		         System.exit(0);
+		         //doWhenDone.run();
+		      }
+		   }
+
 	}
 
 }
