@@ -36,7 +36,7 @@ public class TriviaGameClientThread extends Thread{
 			
 			while(true && !exit_loop)
 			{
-				while(!g1.question_stack.empty() && TriviaGameServer.flag_all_players_in)
+				while(!g1.question_stack.empty() && TriviaGameServer.flag)
 				{					
 					g1.nextQuestion();
 					//TriviaGameServer.player_answer_counter = 0;
@@ -64,6 +64,8 @@ public class TriviaGameClientThread extends Thread{
 						break;
 					}
 					
+					
+					//while(TriviaGameServer.player_answer_counter < TriviaGameServer.player_count)
 					while(!TriviaGameServer.flag_next_question)
 					{
 						try
@@ -79,13 +81,19 @@ public class TriviaGameClientThread extends Thread{
 						if(TriviaGameServer.player_answer_counter%TriviaGameServer.player_count == 0)
 							TriviaGameServer.flag_next_question = true;
 					}
-
+					
+					//TriviaGameServer.player_answer_counter = 0;
 					TriviaGameServer.flag_next_question = false;
+
+					
 				}
+				
+				
 			}
 	
 			output_stream.println("***END***");
-
+			
+			//break;
 			
 			//Remove thread and push null TriviaGameClientThread to thread pool
 			for(TriviaGameClientThread thread: TriviaGameServer.running_threads){

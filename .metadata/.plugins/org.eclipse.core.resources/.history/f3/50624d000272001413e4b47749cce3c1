@@ -15,7 +15,7 @@ public class TriviaGameServer{
 	private static ServerSocket server_socket = null;
 	private static Socket client_socket = null;
 	
-	public static boolean flag_all_players_in = false;
+	public static boolean flag = false;
 	public static int player_answer_counter = 0;
 	public static int player_count =0;
 	public static boolean flag_next_question = false;
@@ -42,7 +42,8 @@ public class TriviaGameServer{
 		}
 		
 		GameObject game = new GameObject();
-
+		
+		//String str =
 		Gson g = new Gson();
 		String json = g.toJson(game);
 		
@@ -68,9 +69,11 @@ public class TriviaGameServer{
 					helper = new TriviaGameClientThread(client_socket, game);
 					player_count++;
 					
-					//TEST
+					
+					
+					
 					if(player_count == 3)
-						flag_all_players_in = true; 
+						flag = true; 
 					
 					helper.start();
 					running_threads.add(helper);
