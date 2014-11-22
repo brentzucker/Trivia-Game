@@ -1,0 +1,14 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class ClientGUI extends JFrame
+{
+	public ClientGUI()
+	{
+		setTitle("Client GUI");
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setLayout(new BorderLayout(J J; 
+	}
+}

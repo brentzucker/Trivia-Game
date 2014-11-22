@@ -76,6 +76,8 @@ public class TriviaGameClientThread extends Thread{
 						}
 						
 						TriviaGameServer.player_answer_counter = TriviaGameServer.getPlayerAnswerCounter();
+						
+						//checks to see if everyone has answered
 						if(TriviaGameServer.player_answer_counter%TriviaGameServer.player_count == 0)
 							TriviaGameServer.flag_next_question = true;
 					}

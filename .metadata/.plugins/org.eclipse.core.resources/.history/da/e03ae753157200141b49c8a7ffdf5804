@@ -1,0 +1,135 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+
+
+public class TriviaGameClient implements Runnable{
+	
+	private static Socket client_socket = null;
+	private static PrintStream output_stream = null;
+	private static BufferedReader input_stream = null;
+	private static BufferedReader output_line = null;
+	
+	public static String client_question;
+	public static String[] client_choices = new String[4];
+	
+	private static boolean is_closed = false;
+
+	public TriviaGameClient()
+	{
+		setTitle("Client GUI");
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setSize(800, 600);
+		
+		setLayout(new BorderLayout());
+		
+		JPanel center_panel = new JPanel();
+		JPanel west_panel = new JPanel();
+		JPanel east_panel = new JPanel();
+		JPanel north_panel = new JPanel();
+		JPanel south_panel = new JPanel();
+		
+		String choice_A = client_choices[0];
+		String choice_B = client_choices[1];
+		String choice_C = client_choices[2];
+		String choice_D = client_choices[3];
+		
+		JButton button1 = new JButton(choice_A);
+		JButton button2 = new JButton(choice_B);
+		JButton button3 = new JButton(choice_C);
+		JButton button4 = new JButton(choice_D);
+		
+		south_panel.add(button1);
+		south_panel.add(button2);
+		south_panel.add(button3);
+		south_panel.add(button4);
+		
+		add(south_panel, BorderLayout.SOUTH);
+		add(north_panel, BorderLayout.NORTH);
+		add(east_panel, BorderLayout.EAST);
+		add(west_panel, BorderLayout.WEST);
+		add(center_panel, BorderLayout.CENTER);
+		
+		pack();
+		setVisible(true);
+	}
+	
+	public static void main(String[] args)extends JFrame
+	{
+		int port = 9000;
+		String host = "localhost";
+		
+		try{
+			client_socket = new Socket(host, port);
+			
+			output_stream = new PrintStream(client_socket.getOutputStream());
+			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
+			
+			output_line = new BufferedReader(new InputStreamReader(System.in));
+			
+			 if (client_socket != null && output_stream != null && input_stream != null){
+				 new Thread(new TriviaGameClient()).start();
+			 }
+			
+			while(! is_closed){
+				//output_stream.println(output_line.readLine().trim());
+				String input = output_line.readLine().trim();
+				output_stream.println(input);
+			}
+			
+			new ClientGUI();
+				 
+			 output_stream.close();
+			 input_stream.close();
+			 client_socket.close();
+		}catch(UnknownHostException e){
+			e.printStackTrace();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void run(){
+		String response;
+		
+		try{
+			while((response = input_stream.readLine()) != null){
+				System.out.println(response);
+				
+				if(response.contains("?"))
+					client_question = response;
+				
+				if(response.startsWith("A:"))
+					client_choices[0] = response;
+					
+				if(response.startsWith("B:"))
+					client_choices[1] = response;
+					
+				if(response.startsWith("C:"))
+					client_choices[2] = response;
+					
+				if(response.startsWith("D:"))
+					client_choices[3] = response;
+					
+				if(response.equals("***END***"))
+					break;
+				
+				pack();
+				setVisible(true);
+				
+			}
+			is_closed = true;
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+}

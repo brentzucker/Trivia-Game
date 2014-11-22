@@ -1,0 +1,37 @@
+import javax.swing.JFrame;
+import java.awt.Container;
+
+public class ClientGUI extends JFrame
+{
+	private Container contents;
+	
+	public ClientGUI()
+	{
+		super( "Client GUI Application" );
+		
+		//gets container for components
+		contents = getContentPane();
+		
+		//set the layout manager
+		
+		//instantiate GUI components and other instance variables
+		
+		//add GUI components to the content pane
+		
+		//set the original size of window
+		setSize(800, 600);
+		
+		//make window visible
+		setVisible( true );
+		
+	}
+	
+	public static void main( String[] args )
+	{
+		ClientGUI gui = new ClientGUI();
+		
+		gui.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+		
+		TriviaGameClient client = new TriviaGameClient();
+	}
+}

@@ -4,19 +4,75 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.awt.*;
+import javax.swing.*;
 
 
 
-public class TriviaGameClient implements Runnable{
+public class TriviaGameClient extends JFrame implements Runnable{
 	
 	private static Socket client_socket = null;
 	private static PrintStream output_stream = null;
 	private static BufferedReader input_stream = null;
 	private static BufferedReader output_line = null;
 	
-	private static boolean is_closed = false;
+	public static String client_question;
+	public static String[] client_choices = new String[4];
 	
-	public static void main(String[] args){
+	private static boolean is_closed = false;
+   
+   public static JButton button1;
+   public static JButton button2;
+	public static JButton button3;
+	public static JButton button4;
+
+	public TriviaGameClient()
+	{
+		setTitle("Client GUI");
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setSize(800, 600);
+		
+		setLayout(new BorderLayout());
+		
+		JPanel center_panel = new JPanel();
+		JPanel west_panel = new JPanel();
+		JPanel east_panel = new JPanel();
+		JPanel north_panel = new JPanel();
+		JPanel south_panel = new JPanel();
+		
+		String choice_A = client_choices[0];
+		String choice_B = client_choices[1];
+		String choice_C = client_choices[2];
+		String choice_D = client_choices[3];
+      
+      
+		
+		button1 = new JButton(choice_A);
+		button2 = new JButton(choice_B);
+		button3 = new JButton(choice_C);
+		button4 = new JButton(choice_D);
+      
+      south_panel.add(button1);
+		south_panel.add(button2);
+		south_panel.add(button3);
+		south_panel.add(button4);
+		
+		
+		
+		add(south_panel, BorderLayout.SOUTH);
+		add(north_panel, BorderLayout.NORTH);
+		add(east_panel, BorderLayout.EAST);
+		add(west_panel, BorderLayout.WEST);
+		add(center_panel, BorderLayout.CENTER);
+		
+		pack();
+		setVisible(true);
+	}
+	
+	public static void main(String[] args)
+	{
 		int port = 9000;
 		String host = "localhost";
 		
@@ -33,10 +89,13 @@ public class TriviaGameClient implements Runnable{
 			 }
 			
 			while(! is_closed){
-				output_stream.println(output_line.readLine().trim());
+				//output_stream.println(output_line.readLine().trim());
+				String input = output_line.readLine().trim();
+				output_stream.println(input);
 			}
-				
-			 
+			
+			new TriviaGameClient();
+				 
 			 output_stream.close();
 			 input_stream.close();
 			 client_socket.close();
@@ -50,11 +109,54 @@ public class TriviaGameClient implements Runnable{
 	
 	public void run(){
 		String response;
-		
+		int count = 0;
 		try{
 			while((response = input_stream.readLine()) != null){
 				System.out.println(response);
 				
+				if(response.contains("?"))
+				{
+					client_question = response;
+					count++;
+				}
+					
+				
+				if(response.startsWith("A:"))
+				{
+               button1 = new JButton(response);
+               pack();
+               setVisible(true);
+					client_choices[0] = response;
+					count++;
+				}
+					
+					
+				if(response.startsWith("B:"))
+				{
+					client_choices[1] = response;
+					count++;
+				}
+					
+					
+				if(response.startsWith("C:"))
+				{
+					client_choices[2] = response;
+					count++;
+				}
+					
+					
+				if(response.startsWith("D:"))
+				{
+					client_choices[3] = response;
+					count++;
+				}
+				
+				if(count == 5)
+				{
+					//new TriviaGameClient();
+					count = 0;
+				}
+            
 				if(response.equals("***END***"))
 					break;
 				

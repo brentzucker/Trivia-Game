@@ -69,7 +69,7 @@ public class TriviaGameServer{
 					player_count++;
 					
 					//TEST
-					if(player_count == 3)
+					if(player_count == 1)
 						flag_all_players_in = true; 
 					
 					helper.start();
