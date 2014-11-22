@@ -38,10 +38,6 @@ public class TriviaGameClientThread extends Thread{
 				{
 					System.out.println("You answered: "+temp);
 					if(g1.current_question.isCorrect(temp.charAt(0)))
-						output_stream.println("Correct!");
-					else
-						output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
-					
 					if(temp.equals("/exit"))
 						break;
 				}

@@ -48,7 +48,7 @@ public class Question implements Comparable<Question>
 	
 	public String choicesToString()
 	{
-		return "A: "+choices[0]+"\nB: "+choices[1]+"\nC: "+choices[2]+"\nD: "+choices[3];
+		return ""+choice[0]+", "+choice[1]+", "+choice[2]", "+choice[3];
 	}
 
 	public boolean isCorrect(char a)

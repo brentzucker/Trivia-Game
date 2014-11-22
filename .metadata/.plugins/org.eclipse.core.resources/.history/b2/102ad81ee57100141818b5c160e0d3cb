@@ -12,12 +12,10 @@ public class TriviaGameClientThread extends Thread{
 		private BufferedReader input_stream = null;
 		private PrintStream output_stream = null;
 		private Socket client_socket = null;
-		public GameObject g1;
 		
 	
-	public TriviaGameClientThread(Socket client_socket, GameObject g){
+	public TriviaGameClientThread(Socket client_socket){
 		this.client_socket = client_socket;
-		g1 = new GameObject(g);
 	}
 	
 	public void run(){
@@ -30,26 +28,12 @@ public class TriviaGameClientThread extends Thread{
 			
 			output_stream.println("Hello, send me somthing.");
 			
-			while(!g1.question_stack.empty())
+			while((temp = input_stream.readLine()) != null)
 			{
-				output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
-				
-				if((temp = input_stream.readLine()) != null)
-				{
-					System.out.println("You answered: "+temp);
-					if(g1.current_question.isCorrect(temp.charAt(0)))
-						output_stream.println("Correct!");
-					else
-						output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
-					
-					if(temp.equals("/exit"))
-						break;
-				}
-				
-				g1.nextQuestion();
+				System.out.println(temp);
+				if(temp.equals("/exit"))
+					break;
 			}
-			
-			
 			
 			
 			output_stream.println("***END***");

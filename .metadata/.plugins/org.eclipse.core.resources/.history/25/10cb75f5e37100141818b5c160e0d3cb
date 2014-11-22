@@ -42,7 +42,7 @@ public class TriviaGameServer{
 		Gson g = new Gson();
 		String json = g.toJson(game);
 		
-		//System.out.println(json);
+		System.out.println(json)l
 		
 		// Enter infinite running loop for accepting new connections and running the game.
 		while(true){
@@ -60,7 +60,7 @@ public class TriviaGameServer{
 				
 				else{
 					helper = threads.pop();
-					helper = new TriviaGameClientThread(client_socket, game);
+					helper = new TriviaGameClientThread(client_socket);
 					
 					helper.start();
 					running_threads.add(helper);

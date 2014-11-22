@@ -32,24 +32,16 @@ public class TriviaGameClientThread extends Thread{
 			
 			while(!g1.question_stack.empty())
 			{
-				output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
-				
-				if((temp = input_stream.readLine()) != null)
-				{
-					System.out.println("You answered: "+temp);
-					if(g1.current_question.isCorrect(temp.charAt(0)))
-						output_stream.println("Correct!");
-					else
-						output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
-					
-					if(temp.equals("/exit"))
-						break;
-				}
-				
+				System.out.println(g1.current_question.question+ "\n"+g1.current_question.choices[0]+ "\n"+g1.current_question.choices[1]+ "\n"+g1.current_question.choices[2]+ "\n"+g1.current_question.choices[3] + "\nanswer: " + g1.correctAnswer());
 				g1.nextQuestion();
 			}
 			
-			
+			while((temp = input_stream.readLine()) != null)
+			{
+				System.out.println(temp);
+				if(temp.equals("/exit"))
+					break;
+			}
 			
 			
 			output_stream.println("***END***");
