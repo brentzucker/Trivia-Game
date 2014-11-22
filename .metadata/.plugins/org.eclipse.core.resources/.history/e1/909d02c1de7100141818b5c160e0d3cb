@@ -27,9 +27,7 @@ public class TriviaGameClientThread extends Thread{
 			output_stream = new PrintStream(client_socket.getOutputStream());
 			
 			output_stream.println("Hello, send me somthing.");
-			
-			while((temp = input_stream.readLine()) != null)
-			{
+			while((temp = input_stream.readLine()) != null){
 				System.out.println(temp);
 				if(temp.equals("/exit"))
 					break;

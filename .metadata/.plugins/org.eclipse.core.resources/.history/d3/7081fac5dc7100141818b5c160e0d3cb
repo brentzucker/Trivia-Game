@@ -23,7 +23,7 @@ public class TriviaGameServer{
 		
 		//Initialize server_socket to a new ServerSocket at the port from the configuration.
 		try{
-			server_socket = new ServerSocket(server_config.getPort()); // coming from JSON file
+			server_socket = new ServerSocket(server_config.getPort());
 			System.out.println("Server is up on port " + server_config.getPort());
 		}catch(IOException e){
 			e.printStackTrace();
@@ -53,9 +53,8 @@ public class TriviaGameServer{
 				else{
 					helper = threads.pop();
 					helper = new TriviaGameClientThread(client_socket);
-					
-					helper.start();
 					running_threads.add(helper);
+					helper.run();
 				}
 			}catch(IOException e){
 				e.printStackTrace();

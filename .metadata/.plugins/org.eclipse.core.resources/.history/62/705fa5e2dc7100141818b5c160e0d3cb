@@ -53,9 +53,8 @@ public class TriviaGameServer{
 				else{
 					helper = threads.pop();
 					helper = new TriviaGameClientThread(client_socket);
-					
-					helper.start();
 					running_threads.add(helper);
+					helper.run();
 				}
 			}catch(IOException e){
 				e.printStackTrace();
