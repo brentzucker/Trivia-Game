@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Timer;
 
 
 public class TriviaGameClientThread extends Thread{
@@ -23,40 +24,76 @@ public class TriviaGameClientThread extends Thread{
 	public void run(){
 		TriviaGameClientThread helper;
 		String temp;
-		try{
+		try
+		{
 			System.out.println("New thread started");
 			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
 			output_stream = new PrintStream(client_socket.getOutputStream());
 			
 			output_stream.println("Waiting for game to fill up...");
+			boolean exit_loop = false;
+			Timer timer = new Timer();
 			
-			while(!TriviaGameServer.flag)
+			while(true && !exit_loop)
 			{
-				
-			}
-			
-			while(!g1.question_stack.empty())
-			{
-				g1.nextQuestion();
-				output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
-				
-				if((temp = input_stream.readLine()) != null)
-				{
-					System.out.println("You answered: "+temp);
-					if(g1.current_question.isCorrect(temp.charAt(0)))
-						output_stream.println("Correct!");
-					else
-						output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
+				while(!g1.question_stack.empty() && TriviaGameServer.flag)
+				{					
+					g1.nextQuestion();
+					//TriviaGameServer.player_answer_counter = 0;
+					output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
 					
-					if(temp.equals("/exit"))
+					if((temp = input_stream.readLine()) != null)
+					{
+						
+						System.out.println("You answered: "+temp);
+						
+						TriviaGameServer.player_answer_counter++;
+						
+						if(g1.current_question.isCorrect(temp.charAt(0)))
+							output_stream.println("Correct!");
+						else
+							output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
+						
+						if(temp.equals("/exit"))
+							break;
+					}
+					
+					if(g1.question_stack.empty())
+					{
+						exit_loop = true;
 						break;
+					}
+					
+					
+					//while(TriviaGameServer.player_answer_counter < TriviaGameServer.player_count)
+					while(!TriviaGameServer.flag_next_question)
+					{
+						try
+						{
+							Thread.sleep(100);
+						}
+						catch(InterruptedException e)
+						{
+							
+						}
+						
+						TriviaGameServer.player_answer_counter = TriviaGameServer.getPlayerAnswerCounter();
+						if(TriviaGameServer.player_answer_counter%TriviaGameServer.player_count == 0)
+							TriviaGameServer.flag_next_question = true;
+					}
+					
+					//TriviaGameServer.player_answer_counter = 0;
+					TriviaGameServer.flag_next_question = false;
+
+					
 				}
+				
+				
 			}
-			
-			
-			
-			
+	
 			output_stream.println("***END***");
+			
+			//break;
 			
 			//Remove thread and push null TriviaGameClientThread to thread pool
 			for(TriviaGameClientThread thread: TriviaGameServer.running_threads){
@@ -74,7 +111,9 @@ public class TriviaGameClientThread extends Thread{
 			output_stream.close();
 			client_socket.close();
 			
-		}catch(IOException e){
+		}
+		catch(IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
