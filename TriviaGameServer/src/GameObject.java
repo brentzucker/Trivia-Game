@@ -72,8 +72,10 @@ public class GameObject
 		while(question_set.size() < 10)
 		{
 			Random rn = new Random();
+			
+			int index = rn.nextInt(question_library.size());
 
-			question_set.add(question_library.get(rn.nextInt(question_library.size())));
+			question_set.add(question_library.get(index));
 		}
 
 		question_stack.addAll(question_set);
@@ -87,7 +89,7 @@ public class GameObject
 
 		try
 		{
-			File file = new File("question_library.txt");
+			File file = new File("config/question_library.txt");
 			Scanner inputFile = new Scanner(file);
 
 			while(inputFile.hasNextLine())
@@ -104,16 +106,17 @@ public class GameObject
 		}
 		catch(IOException e)
 		{
-
+			System.out.println("cant find file.");
 		}
 
 
 		return q_array_list; 
  	}
 
+	/*test
  	public static void main(String[] args)throws IOException
  	{
- 		/*test
+ 		
  		GameObject g1 = new GameObject();
 
  		GameObject g2 = new GameObject(g1);
@@ -128,8 +131,6 @@ public class GameObject
  			g1.nextQuestion();
  			g2.nextQuestion();
  		}
-
- 		*/
- 		
  	}
+ 	*/
 }

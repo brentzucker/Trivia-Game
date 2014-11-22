@@ -74,7 +74,7 @@ public class Question implements Comparable<Question>
 		else return false;
 	}
 
-	 public int compareTo(Question q)
+	public int compareTo(Question q)
  	{
  		final int BEFORE = -1;
     	final int EQUAL = 0;
