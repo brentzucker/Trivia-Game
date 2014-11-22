@@ -55,7 +55,7 @@ public class GameObject
 
 	public void nextQuestion()
 	{
-		current_question = question_stack.pop();
+			current_question = question_stack.pop();
 	}
 
 	public String correctAnswer()
@@ -91,15 +91,16 @@ public class GameObject
 		{
 			File file = new File("config/question_library.txt");
 			Scanner inputFile = new Scanner(file);
-
+			
+			int count = 0;
 			while(inputFile.hasNextLine())
 			{
 				String question = inputFile.nextLine();
 				String[] choices = inputFile.nextLine().split(", ");
 				int answer = Integer.parseInt(""+inputFile.nextLine().charAt(0));
 
-				q_array_list.add(new Question(question, choices, answer));
-
+				q_array_list.add(new Question(question, choices, answer, count));
+				count++;
 			}
 
 			inputFile.close();

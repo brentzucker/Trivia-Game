@@ -1,5 +1,5 @@
 
-public class Question implements Comparable<Question> 
+public class Question implements Comparable<Question>
 {
 
 /*
@@ -10,13 +10,14 @@ public class Question implements Comparable<Question>
 	public String question; 
 	public String[] choices;
 	public int answer;
+	public int question_id;
 
 	Question()
 	{
 
 	}
 
-	Question(String q, String[] c, int a)
+	Question(String q, String[] c, int a, int q_id)
 	{
 		question = q; 
 		
@@ -26,6 +27,8 @@ public class Question implements Comparable<Question>
 			choices[i] = c[i];
 
 		answer = a; 
+		
+		question_id = q_id;
 	}
 
 	Question(String q)
@@ -84,11 +87,18 @@ public class Question implements Comparable<Question>
  		final int BEFORE = -1;
     	final int EQUAL = 0;
     	final int AFTER = 1;
-
-    	if(question.equals(q.question))
+    	
+    	/*
+    	if(!question.equals(q.question))
+    		return AFTER;
+    	else return EQUAL;
+    	*/
+    	
+    	if(question_id == q.question_id)
     		return EQUAL;
-
-    	return AFTER;
+    	else if(question_id < q.question_id)
+    		return AFTER;
+    	else return BEFORE;
  	}
 
 }

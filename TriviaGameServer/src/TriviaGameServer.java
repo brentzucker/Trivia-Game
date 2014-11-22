@@ -15,6 +15,8 @@ public class TriviaGameServer{
 	private static ServerSocket server_socket = null;
 	private static Socket client_socket = null;
 	
+	public static boolean flag = false;
+	
 	public static final Stack<TriviaGameClientThread> threads = new Stack<TriviaGameClientThread>();
 	public static final LinkedList<TriviaGameClientThread> running_threads = new LinkedList<TriviaGameClientThread>();
 	
@@ -43,7 +45,7 @@ public class TriviaGameServer{
 		String json = g.toJson(game);
 		
 		//System.out.println(json);
-		
+		int count =0;
 		// Enter infinite running loop for accepting new connections and running the game.
 		while(true){
 			try{
@@ -61,6 +63,11 @@ public class TriviaGameServer{
 				else{
 					helper = threads.pop();
 					helper = new TriviaGameClientThread(client_socket, game);
+					count++;
+					
+					
+					if(count == 3)
+						flag = true; 
 					
 					helper.start();
 					running_threads.add(helper);

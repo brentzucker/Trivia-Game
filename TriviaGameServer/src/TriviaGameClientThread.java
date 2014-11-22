@@ -28,10 +28,16 @@ public class TriviaGameClientThread extends Thread{
 			input_stream = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
 			output_stream = new PrintStream(client_socket.getOutputStream());
 			
-			output_stream.println("Hello, send me somthing.");
+			output_stream.println("Waiting for game to fill up...");
+			
+			while(!TriviaGameServer.flag)
+			{
+				
+			}
 			
 			while(!g1.question_stack.empty())
 			{
+				g1.nextQuestion();
 				output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
 				
 				if((temp = input_stream.readLine()) != null)
@@ -45,8 +51,6 @@ public class TriviaGameClientThread extends Thread{
 					if(temp.equals("/exit"))
 						break;
 				}
-				
-				g1.nextQuestion();
 			}
 			
 			
