@@ -71,11 +71,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 		
 		question_messageLabel = new JLabel(client_question);
 		question_messageLabel.setFont(new Font("Serif", Font.BOLD, 28));
-		JLabel big_empty_label = new JLabel("   ");
+		JLabel big_empty_label = new JLabel(" ");
 		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel = new JLabel("10");
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
-		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
 		
 		ip_label = new JLabel(host);
 		name_label = new JLabel(screenname);
@@ -332,13 +331,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 	    {
 			timer_messageLabel.setText(""+timer_count);
 
-	        if(timer_count <= 3)
-	        {
-	        	timer_messageLabel.setForeground(Color.RED);
-	        }
-	        else
-	        	timer_messageLabel.setForeground(Color.BLACK);
-	        
 	        if (timer_count == 0) 
 	        {
 	            timer_messageLabel.setForeground(Color.RED);
@@ -347,8 +339,18 @@ public class TriviaGameClient extends JFrame implements Runnable
 	            rn = new Random();
 	            output_stream.println(abcd.charAt(rn.nextInt(4))); //outputs an A, b, c, or d
 	        }
+	        
+	        if(timer_count <= 3)
+	        {
+	        	timer_messageLabel.setForeground(Color.RED);
+	        }
 	        else
+	        	timer_messageLabel.setForeground(Color.BLACK);
+
+	        if (timer_count > 0) 
+	        {
 	        	timer_count--;
+	        }
 	    }
 	}
     
