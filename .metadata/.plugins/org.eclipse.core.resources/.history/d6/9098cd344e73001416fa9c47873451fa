@@ -33,6 +33,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 	public static JButton button3;
 	public static JButton button4;
 	
+	public static JLabel question_messageLabel;
 	public static JTextArea question_messageText;
 	public static JLabel timer_messageLabel;
 	public static JLabel notification_messageLabel;
@@ -73,12 +74,15 @@ public class TriviaGameClient extends JFrame implements Runnable
 		String choice_C = client_choices[2];
 		String choice_D = client_choices[3];
 		
-		question_messageText = new JTextArea(client_question);
+		question_messageLabel = new JLabel(client_question);
+		question_messageLabel.setHorizontalAlignment(JLabel.CENTER);
+		question_messageLabel.setFont(new Font("Serif", Font.BOLD, 28));
+		
 		question_messageText.setEditable(false);
+		question_messageText = new JTextArea(client_question);
 		question_messageText.setAlignmentX(CENTER_ALIGNMENT);
 		question_messageText.setFont(new Font("Serif", Font.BOLD, 28));
 		question_messageText.setLineWrap(true);
-		question_messageText.setWrapStyleWord(true);
 		question_messageText.setForeground(Color.BLACK);
 		question_messageText.setBackground(getBackground());
 		
@@ -89,13 +93,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		timer_messageLabel = new JLabel("10");
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
-		timer_messageLabel.setVerticalAlignment(JLabel.TOP);
-		
-		//timer title label
-		JLabel timer_title_label = new JLabel("Time Left");
-		timer_title_label.setFont(new Font("Serif", Font.ITALIC, 24));
-		timer_title_label.setVerticalAlignment(JLabel.BOTTOM);
-		timer_title_label.setHorizontalAlignment(JLabel.CENTER);
 		
 		//score title label
 		JLabel score_title_label = new JLabel("Score");
@@ -170,9 +167,8 @@ public class TriviaGameClient extends JFrame implements Runnable
 		north_panel.add(name_label);
 		north_panel.add(port_label);
 		
-		west_panel.add(timer_title_label);
-		west_panel.add(timer_messageLabel);
 		west_panel.add(big_empty_label);
+		west_panel.add(timer_messageLabel);
 		
 		south_panel.add(button1);
 		south_panel.add(button2);
@@ -191,6 +187,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		add(question_panel, BorderLayout.CENTER);
 		add(east_panel, BorderLayout.EAST);
 		add(west_panel, BorderLayout.WEST);
+		//add(center_panel, BorderLayout.CENTER);
 		
 		pack();
 		
@@ -279,6 +276,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 				
 				if(response.contains("?"))
 				{
+					question_messageLabel.setText(response);
 					question_messageText.setText(response);
 					client_question = response;
 					count++;

@@ -89,7 +89,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		timer_messageLabel = new JLabel("10");
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
-		timer_messageLabel.setVerticalAlignment(JLabel.TOP);
 		
 		//timer title label
 		JLabel timer_title_label = new JLabel("Time Left");
@@ -191,6 +190,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		add(question_panel, BorderLayout.CENTER);
 		add(east_panel, BorderLayout.EAST);
 		add(west_panel, BorderLayout.WEST);
+		//add(center_panel, BorderLayout.CENTER);
 		
 		pack();
 		
