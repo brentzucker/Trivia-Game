@@ -78,9 +78,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		question_messageLabel.setFont(new Font("Serif", Font.BOLD, 28));
 		
 		JLabel big_empty_label = new JLabel("    ");
-		JLabel big_empty_label2 = new JLabel("    ");
 		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
-		big_empty_label2.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel = new JLabel("10");
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -168,7 +166,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		
 		east_panel.add(score_title_label);
 		east_panel.add(score_label);
-		east_panel.add(big_empty_label2);
+		east_panel.add(big_empty_label);
 		
 		question_panel.add(question_messageLabel);
 		question_panel.add(notification_messageLabel);

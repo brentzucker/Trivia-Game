@@ -78,19 +78,14 @@ public class TriviaGameClient extends JFrame implements Runnable
 		question_messageLabel.setFont(new Font("Serif", Font.BOLD, 28));
 		
 		JLabel big_empty_label = new JLabel("    ");
-		JLabel big_empty_label2 = new JLabel("    ");
 		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
-		big_empty_label2.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel = new JLabel("10");
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
 		
 		//score title label
 		JLabel score_title_label = new JLabel("Score");
-		score_title_label.setFont(new Font("Serif", Font.ITALIC, 24));
-		score_title_label.setVerticalAlignment(JLabel.BOTTOM);
-		score_title_label.setHorizontalAlignment(JLabel.CENTER);
-		score_label.setVerticalAlignment(JLabel.TOP);
+		score_title_label.setFont(new Font("Serif", Font.BOLD, 24));
 		score_label.setFont(new Font("Serif", Font.BOLD, 120));
 		score_label.setHorizontalAlignment(JLabel.CENTER);
 		score_label.setForeground(Color.getHSBColor(52, 100, 67));
@@ -152,7 +147,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		west_panel.setLayout(new GridLayout(3,1));
 		north_panel.setLayout(new GridLayout(1,3));
 		question_panel.setLayout(new GridLayout(2,1));
-		east_panel.setLayout(new GridLayout(3,1));
+		east_panel.setLayout(new GridLayout(2,1));
 		
 		north_panel.add(ip_label);
 		north_panel.add(name_label);
@@ -168,7 +163,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		
 		east_panel.add(score_title_label);
 		east_panel.add(score_label);
-		east_panel.add(big_empty_label2);
 		
 		question_panel.add(question_messageLabel);
 		question_panel.add(notification_messageLabel);
