@@ -241,7 +241,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
-				//The system.out.println can now be commented out
 				System.out.println(response);
 				
 				if(response.contains("?"))

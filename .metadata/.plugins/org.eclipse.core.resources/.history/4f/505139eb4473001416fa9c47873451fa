@@ -80,10 +80,9 @@ public class TriviaGameClient extends JFrame implements Runnable
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
 		
-		notification_messageLabel = new JLabel("");
+		notification_messageLabel = new JLabel("congrats");
 		notification_messageLabel.setVerticalAlignment(JLabel.BOTTOM);
 		notification_messageLabel.setHorizontalAlignment(JLabel.CENTER);
-		notification_messageLabel.setFont(new Font("Serif", Font.BOLD, 44));
 		
 		ip_label = new JLabel(host);
 		name_label = new JLabel(screenname);
@@ -241,7 +240,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
-				//The system.out.println can now be commented out
 				System.out.println(response);
 				
 				if(response.contains("?"))
@@ -279,18 +277,14 @@ public class TriviaGameClient extends JFrame implements Runnable
 					count++;
 				}
 				
-				if(response.startsWith("Correct!"))
+				if(response.startsWith("Corrrect!"))
 				{
 					//call action Listener for correct
-					notification_messageLabel.setText("EXCELLENT!");
-					notification_messageLabel.setForeground(Color.GREEN);
 				}
 				
 				if(response.startsWith("Wrong"))
 				{
 					//call action Listener for Wrong
-					notification_messageLabel.setText("Nice Try");
-					notification_messageLabel.setForeground(Color.RED);
 				}
 				
 				if(count-5 == 0)
@@ -358,8 +352,28 @@ public class TriviaGameClient extends JFrame implements Runnable
 		}
 	}
 	
-	//Handle timer event. Update the timer_count (time left on question)
-	//if time runs out generates a random answer and "guesses"
+	private class CorrectListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			notification_messageLabel.setText("Excellent");
+			notification_messageLabel.setForeground(Color.GREEN);
+		}
+	}
+	
+	private class WrongListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			notification_messageLabel.setText("Nice Try");
+			notification_messageLabel.setForeground(Color.RED);
+		}
+	}
+	
+	//Handle timer event. Update the timer_count (time left on question) and the
+    //offset.  If it's the last frame, restart the timer to get a long
+    //pause between loops.
+	
 	private class timerListener implements ActionListener
 	{
 		String abcd = "ABCD";

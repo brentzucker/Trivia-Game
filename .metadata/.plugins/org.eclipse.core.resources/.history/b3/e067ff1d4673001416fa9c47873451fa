@@ -241,7 +241,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
-				//The system.out.println can now be commented out
 				System.out.println(response);
 				
 				if(response.contains("?"))
@@ -355,6 +354,24 @@ public class TriviaGameClient extends JFrame implements Runnable
 			timer.stop();
 			timer_count = 10;
 			output_stream.println("D");
+		}
+	}
+	
+	private class CorrectListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			notification_messageLabel.setText("Excellent");
+			notification_messageLabel.setForeground(Color.GREEN);
+		}
+	}
+	
+	private class WrongListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			notification_messageLabel.setText("Nice Try");
+			notification_messageLabel.setForeground(Color.RED);
 		}
 	}
 	

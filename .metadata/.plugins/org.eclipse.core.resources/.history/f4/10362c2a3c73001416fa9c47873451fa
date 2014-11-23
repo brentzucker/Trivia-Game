@@ -71,19 +71,15 @@ public class TriviaGameClient extends JFrame implements Runnable
 		String choice_D = client_choices[3];
 		
 		question_messageLabel = new JLabel(client_question);
-		question_messageLabel.setHorizontalAlignment(JLabel.CENTER);
 		question_messageLabel.setFont(new Font("Serif", Font.BOLD, 28));
-		
 		JLabel big_empty_label = new JLabel("   ");
 		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel = new JLabel("10");
 		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
 		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
 		
-		notification_messageLabel = new JLabel("");
+		notification_messageLabel = new JLabel("congrats");
 		notification_messageLabel.setVerticalAlignment(JLabel.BOTTOM);
-		notification_messageLabel.setHorizontalAlignment(JLabel.CENTER);
-		notification_messageLabel.setFont(new Font("Serif", Font.BOLD, 44));
 		
 		ip_label = new JLabel(host);
 		name_label = new JLabel(screenname);
@@ -97,7 +93,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 			Image img = ImageIO.read(getClass().getResource("button.jpg"));
 			Image scaled_img = img.getScaledInstance( 400, 50, Image.SCALE_SMOOTH);
 			ImageIcon button_icon = new ImageIcon(scaled_img);
-			
 			button1 = new JButton(choice_A, button_icon);
 			button2 = new JButton(choice_B, button_icon);
 			button3 = new JButton(choice_C, button_icon);
@@ -111,17 +106,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 			button3.setVerticalTextPosition(JButton.CENTER);
 			button4.setHorizontalTextPosition(JButton.CENTER);
 			button4.setVerticalTextPosition(JButton.CENTER);
-			
-			button1.setFont(new Font("Serif", Font.PLAIN, 24));
-			button2.setFont(new Font("Serif", Font.PLAIN, 24));
-			button3.setFont(new Font("Serif", Font.PLAIN, 24));
-			button4.setFont(new Font("Serif", Font.PLAIN, 24));
-			
-			button1.setForeground(Color.lightGray);
-			button2.setForeground(Color.lightGray);
-			button3.setForeground(Color.lightGray);
-			button4.setForeground(Color.lightGray);
-				
 		}
 		catch(IOException ex)
 		{
@@ -136,7 +120,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		south_panel.setLayout(new GridLayout(2,2));
 		west_panel.setLayout(new GridLayout(3,1));
 		north_panel.setLayout(new GridLayout(1,3));
-		question_panel.setLayout(new GridLayout(2,1));
 		
 		north_panel.add(ip_label);
 		north_panel.add(name_label);
@@ -150,7 +133,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		south_panel.add(button4);
 		
 		question_panel.add(question_messageLabel);
-		question_panel.add(notification_messageLabel);
 		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
@@ -241,7 +223,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
-				//The system.out.println can now be commented out
 				System.out.println(response);
 				
 				if(response.contains("?"))
@@ -277,20 +258,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 					button4.setText(response.substring(3));
 					client_choices[3] = response;
 					count++;
-				}
-				
-				if(response.startsWith("Correct!"))
-				{
-					//call action Listener for correct
-					notification_messageLabel.setText("EXCELLENT!");
-					notification_messageLabel.setForeground(Color.GREEN);
-				}
-				
-				if(response.startsWith("Wrong"))
-				{
-					//call action Listener for Wrong
-					notification_messageLabel.setText("Nice Try");
-					notification_messageLabel.setForeground(Color.RED);
 				}
 				
 				if(count-5 == 0)
@@ -358,8 +325,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 		}
 	}
 	
-	//Handle timer event. Update the timer_count (time left on question)
-	//if time runs out generates a random answer and "guesses"
+	//Handle timer event. Update the timer_count (time left on question) and the
+    //offset.  If it's the last frame, restart the timer to get a long
+    //pause between loops.
+	
 	private class timerListener implements ActionListener
 	{
 		String abcd = "ABCD";
