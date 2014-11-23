@@ -216,8 +216,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		//port_label.setText(""+port);
 		
 		try{
-			while((response = input_stream.readLine()) != null)
-			{
+			while((response = input_stream.readLine()) != null){
 				System.out.println(response);
 				
 				if(response.contains("?"))
@@ -255,7 +254,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 					count++;
 				}
 				
-				if(count-5 == 0)
+				if(count%5 == 0)
 				{
 					//do this every second 10..0
 					//timer_messageLabel.setText(""+timer_count--);
@@ -285,7 +284,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		public void actionPerformed(ActionEvent e)
 		{
 			timer.stop();
-			timer_count = 10;
 			output_stream.println("A");
 		}
 	}
@@ -295,7 +293,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		public void actionPerformed(ActionEvent e)
 		{
 			timer.stop();
-			timer_count = 10;
 			output_stream.println("B");
 		}
 	}
@@ -305,7 +302,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		public void actionPerformed(ActionEvent e)
 		{
 			timer.stop();
-			timer_count = 10;
 			output_stream.println("C");
 		}
 	}
@@ -315,7 +311,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		public void actionPerformed(ActionEvent e)
 		{
 			timer.stop();
-			timer_count = 10;
 			output_stream.println("D");
 		}
 	}
@@ -328,12 +323,14 @@ public class TriviaGameClient extends JFrame implements Runnable
 	{
 		public void actionPerformed(ActionEvent e) 
 	    {
-			timer_messageLabel.setText(""+timer_count);
+	        timer_count--;
+
+	        timer_messageLabel.setText(""+timer_count);
 
 	        if (timer_count == 0) 
 	        {
+	            timer_count = 10;
 	            timer_messageLabel.setForeground(Color.RED);
-	            timer.stop();
 	        }
 	        
 	        if(timer_count <= 3)
@@ -343,10 +340,20 @@ public class TriviaGameClient extends JFrame implements Runnable
 	        else
 	        	timer_messageLabel.setForeground(Color.BLACK);
 
-	        if (timer_count > 0) 
+	        if (timer_count == 0) 
 	        {
-	        	timer_count--;
+	            timer.restart();
 	        }
+	    }
+
+	    public void start() 
+	    {
+	        timer.restart();
+	    }
+
+	    public void stop() 
+	    {
+	        timer.stop();
 	    }
 	}
     

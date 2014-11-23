@@ -27,6 +27,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 	
 	public static String client_question;
 	public static String[] client_choices = new String[4];
+	public static boolean fully_loaded = false; 
 	
 	private static boolean is_closed = false;
    

@@ -255,7 +255,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 					count++;
 				}
 				
-				if(count-5 == 0)
+				if(count%5 == 0)
 				{
 					//do this every second 10..0
 					//timer_messageLabel.setText(""+timer_count--);
