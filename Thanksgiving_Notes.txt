@@ -1,0 +1,7 @@
+1. Quit in the middle & end ---> play again/quit
+2. Ask how many people are playing
+3. Leaderboards (record scores, date, SN), sort, rewrite
+4. Fix Random Num to actually be random
+5. Chat box
+6. Implement leaderboard
+7. Centering Question Text

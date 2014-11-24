@@ -208,7 +208,11 @@ public class TriviaGameClient extends JFrame implements Runnable
 		JTextField client_host = new JTextField();
 		JTextField client_port = new JTextField();
 		
-		Object[] fields = {"Screenname:", client_name, "Host IP:", client_host, "Port:", client_port };
+		Object[] fields = {
+				"Screenname:", client_name,
+				"Host IP:", client_host,
+				"Port:", client_port
+		};
 		
 		JOptionPane.showConfirmDialog(null, fields, "Trivia Game Config - leave blank for default", JOptionPane.OK_OPTION);
 		
