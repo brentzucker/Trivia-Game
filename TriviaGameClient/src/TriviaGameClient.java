@@ -264,6 +264,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 	
 	public void run()
 	{
+		setResizable(false);
 		String response;
 		int count = 0;
 		
@@ -326,6 +327,12 @@ public class TriviaGameClient extends JFrame implements Runnable
 					//call action Listener for Wrong
 					notification_messageLabel.setText("Nice Try");
 					notification_messageLabel.setForeground(Color.RED);
+				}
+				
+				if(response.startsWith("***END***"))
+				{
+					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					break;
 				}
 				
 				if(count-5 == 0)

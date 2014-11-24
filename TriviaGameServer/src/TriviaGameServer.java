@@ -7,7 +7,8 @@ import java.util.Stack;
 
 import com.google.gson.Gson;
 
-public class TriviaGameServer{
+public class TriviaGameServer
+{
 	
 	// Load Server configuration
 	private static final TriviaGameServerConfig server_config = TriviaGameServerConfigLoader.loadServerConfig();
@@ -19,6 +20,8 @@ public class TriviaGameServer{
 	public static int player_answer_counter = 0;
 	public static int player_count =0;
 	public static boolean flag_next_question = false;
+	
+	public static int players_playing_this_game = 1; //this is how many players MUST BE running client side for the game to work
 	
 	public static final Stack<TriviaGameClientThread> threads = new Stack<TriviaGameClientThread>();
 	public static final LinkedList<TriviaGameClientThread> running_threads = new LinkedList<TriviaGameClientThread>();
@@ -68,7 +71,7 @@ public class TriviaGameServer{
 					player_count++;
 					
 					//TEST
-					if(player_count == 1)
+					if(player_count % players_playing_this_game == 0) //this checks to see if enough clients are in the game to play
 						flag_all_players_in = true; 
 					
 					helper.start();
