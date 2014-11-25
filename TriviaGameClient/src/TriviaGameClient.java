@@ -33,6 +33,8 @@ public class TriviaGameClient extends JFrame implements Runnable
 	public static JButton button3;
 	public static JButton button4;
 	
+	public static JTextArea chatSubmit_TextArea;
+	
 	public static JTextArea question_messageText;
 	public static JLabel timer_messageLabel;
 	public static JLabel notification_messageLabel;
@@ -64,7 +66,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		JPanel west_panel = new JPanel();
 		JPanel east_panel = new JPanel();
 		JPanel north_panel = new JPanel();
-		JPanel question_panel = new JPanel();
+		JPanel center_panel = new JPanel();
 		JPanel south_panel = new JPanel();
 		
 		String choice_A = client_choices[0];
@@ -159,10 +161,21 @@ public class TriviaGameClient extends JFrame implements Runnable
 		button3.addActionListener(new ChoiceCListener());
 		button4.addActionListener(new ChoiceDListener());
 		
+		chatSubmit_TextArea = new JTextArea();
+		
+		JButton chat_button = new JButton();
+		chat_button.addActionListener(new ChatButtonListener());
+		
+		JTextArea chat_TextArea = new JTextArea();
+		chat_TextArea.setEditable(false);
+		
+		JScrollPane chat_ScrollPane = new JScrollPane(chat_TextArea);
+		chat_ScrollPane.getVerticalScrollBar();
+		
 		south_panel.setLayout(new GridLayout(2,2));
 		west_panel.setLayout(new GridLayout(3,1));
 		north_panel.setLayout(new GridLayout(1,3));
-		question_panel.setLayout(new GridLayout(2,1));
+		center_panel.setLayout(new GridLayout(5,1));
 		east_panel.setLayout(new GridLayout(3,1));
 		
 		north_panel.add(ip_label);
@@ -182,12 +195,15 @@ public class TriviaGameClient extends JFrame implements Runnable
 		east_panel.add(score_label);
 		east_panel.add(big_empty_label2);
 		
-		question_panel.add(question_messageText);
-		question_panel.add(notification_messageLabel);
+		center_panel.add(question_messageText);
+		center_panel.add(chat_ScrollPane);
+		center_panel.add(chatSubmit_TextArea);
+		center_panel.add(chat_button);
+		center_panel.add(notification_messageLabel);
 		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
-		add(question_panel, BorderLayout.CENTER);
+		add(center_panel, BorderLayout.CENTER);
 		add(east_panel, BorderLayout.EAST);
 		add(west_panel, BorderLayout.WEST);
 		
@@ -228,7 +244,8 @@ public class TriviaGameClient extends JFrame implements Runnable
 			port = Integer.parseInt(client_port.getText());
 		}
 		
-		try{
+		try
+		{
 			client_socket = new Socket(host, port);
 			
 			output_stream = new PrintStream(client_socket.getOutputStream());
@@ -236,12 +253,16 @@ public class TriviaGameClient extends JFrame implements Runnable
 			
 			output_line = new BufferedReader(new InputStreamReader(System.in));
 			
-			 if (client_socket != null && output_stream != null && input_stream != null){
+			 if (client_socket != null && output_stream != null && input_stream != null)
+			 {
 				 new Thread(new TriviaGameClient()).start();
 			 }
 			
-			while(! is_closed){
-				//output_stream.println(output_line.readLine().trim());
+			 //ready to play game
+			 output_stream.println(":readytoplay:");
+			 
+			while(! is_closed)
+			{
 				String input = output_line.readLine().trim();
 				output_stream.println(input);
 			}
@@ -327,6 +348,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 				if(response.equals("***END***"))
 				{
 					JOptionPane.showMessageDialog(null, screenname+", you scored "+score);
+					output_stream.println("/exit");
 					break;
 				}
 				
@@ -388,6 +410,16 @@ public class TriviaGameClient extends JFrame implements Runnable
 			timer.stop();
 			timer_count = 10;
 			output_stream.println("D");
+		}
+	}
+	
+	//When you press chat button it sends to server
+	private class ChatButtonListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			output_stream.println("chat:"+screenname+": "+chatSubmit_TextArea.getText());
+			chatSubmit_TextArea.setText("");
 		}
 	}
 	

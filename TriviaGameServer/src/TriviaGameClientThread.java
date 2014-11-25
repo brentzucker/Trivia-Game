@@ -33,21 +33,34 @@ public class TriviaGameClientThread extends Thread{
 			
 			output_stream.println("Waiting for game to fill up...");
 			boolean exit_loop = false;
+			boolean ready_to_play = false; //if client has contacted server with ":readytoplay:"
 
 			while(true && !exit_loop)
 			{
 				while(!g1.question_stack.empty() && TriviaGameServer.flag_all_players_in)
 				{					
-					g1.nextQuestion();
-					//TriviaGameServer.player_answer_counter = 0;
-					output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
-					
 					if((client_message = input_stream.readLine()) != null)
 					{
+						//checks to see if chat message
+						if(client_message.startsWith("chat:"))
+						{
+							System.out.println(client_message);
+							output_stream.println(client_message);
+						}
+						
+						if(client_message.equalsIgnoreCase(":readytoplay:"))
+						{
+							ready_to_play = true;
+							
+							g1.nextQuestion();
+							output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
+							
+						}
 						
 						//Checks to see if client_message is a multiple choice answer
-						if(client_message.length()  == 1 && (client_message.charAt(0) == 'A' || client_message.charAt(0) == 'B' || client_message.charAt(0) == 'C' || client_message.charAt(0) == 'D'))
+						if(ready_to_play && (client_message.length()  == 1 && (client_message.charAt(0) == 'A' || client_message.charAt(0) == 'B' || client_message.charAt(0) == 'C' || client_message.charAt(0) == 'D')))
 						{
+
 							TriviaGameServer.player_answer_counter++;
 						
 							System.out.println("You answered: "+client_message);
@@ -56,7 +69,10 @@ public class TriviaGameClientThread extends Thread{
 								output_stream.println("Correct!");
 							else
 								output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
-					
+						
+							g1.nextQuestion();
+							output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
+						
 						}
 						
 						if(client_message.equals("/exit"))
