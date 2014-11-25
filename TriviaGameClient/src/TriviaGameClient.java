@@ -61,7 +61,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 			
 		setLayout(new BorderLayout());
 		
-		JPanel center_panel = new JPanel();
 		JPanel west_panel = new JPanel();
 		JPanel east_panel = new JPanel();
 		JPanel north_panel = new JPanel();

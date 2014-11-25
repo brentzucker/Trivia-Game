@@ -39,7 +39,7 @@ public class TriviaGameServer
 		
 		//Start threads stack
 		for(int i = 0; i < server_config.getMaxClients(); i++){
-			
+			 
 			helper = null;
 			threads.push(helper);
 		}

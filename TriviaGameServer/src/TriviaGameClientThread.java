@@ -21,9 +21,10 @@ public class TriviaGameClientThread extends Thread{
 		g1 = new GameObject(g);
 	}
 	
-	public void run(){
+	public void run()
+	{
 		TriviaGameClientThread helper;
-		String temp;
+		String client_message;
 		try
 		{
 			System.out.println("New thread started");
@@ -32,8 +33,7 @@ public class TriviaGameClientThread extends Thread{
 			
 			output_stream.println("Waiting for game to fill up...");
 			boolean exit_loop = false;
-			Timer timer = new Timer();
-			
+
 			while(true && !exit_loop)
 			{
 				while(!g1.question_stack.empty() && TriviaGameServer.flag_all_players_in)
@@ -42,19 +42,24 @@ public class TriviaGameClientThread extends Thread{
 					//TriviaGameServer.player_answer_counter = 0;
 					output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
 					
-					if((temp = input_stream.readLine()) != null)
+					if((client_message = input_stream.readLine()) != null)
 					{
 						
-						System.out.println("You answered: "+temp);
+						//Checks to see if client_message is a multiple choice answer
+						if(client_message.length()  == 1 && (client_message.charAt(0) == 'A' || client_message.charAt(0) == 'B' || client_message.charAt(0) == 'C' || client_message.charAt(0) == 'D'))
+						{
+							TriviaGameServer.player_answer_counter++;
 						
-						TriviaGameServer.player_answer_counter++;
+							System.out.println("You answered: "+client_message);
 						
-						if(g1.current_question.isCorrect(temp.charAt(0)))
-							output_stream.println("Correct!");
-						else
-							output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
+							if(g1.current_question.isCorrect(client_message.charAt(0)))
+								output_stream.println("Correct!");
+							else
+								output_stream.println("Wrong, the correct answer was "+g1.current_question.choices[g1.current_question.answer]);
+					
+						}
 						
-						if(temp.equals("/exit"))
+						if(client_message.equals("/exit"))
 							break;
 					}
 					
@@ -96,8 +101,6 @@ public class TriviaGameClientThread extends Thread{
 					helper = null;
 					TriviaGameServer.threads.push(helper);
 					System.out.println("Thread removed.");
-					
-					
 				}
 			}
 			

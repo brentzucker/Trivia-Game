@@ -1,30 +1,9 @@
-<<<<<<< Updated upstream
-INDEX VERSION 1.127+C:\Users\Students\Documents\GitHub\Trivia-Game\.metadata\.plugins\org.eclipse.jdt.core
-3974580528.index
-30765161.index
-1498219845.index
-1697886153.index
-4155206848.index
-3133528496.index
-83435125.index
-1818081596.index
-305854171.index
-1995173708.index
-4050938015.index
-4041092966.index
-4108727661.index
-3065916431.index
-1299022128.index
-496273291.index
-163172794.index
-1115467115.index
-=======
 INDEX VERSION 1.127+/Users/bvz/GitHub/Trivia-Game/.metadata/.plugins/org.eclipse.jdt.core
+406940213.index
 2209870153.index
 3909959958.index
 2545238116.index
 1534274763.index
-1548291703.index
 1833648217.index
 2978579992.index
 369741659.index
@@ -45,4 +24,3 @@ INDEX VERSION 1.127+/Users/bvz/GitHub/Trivia-Game/.metadata/.plugins/org.eclipse
 2775959377.index
 1271342938.index
 3266567714.index
->>>>>>> Stashed changes
