@@ -109,7 +109,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		score_label.setHorizontalAlignment(JLabel.CENTER);
 		score_label.setForeground(Color.getHSBColor(52, 100, 67));
 		
-		notification_messageLabel = new JLabel("");
+		notification_messageLabel = new JLabel(" ");
 		notification_messageLabel.setVerticalAlignment(JLabel.BOTTOM);
 		notification_messageLabel.setHorizontalAlignment(JLabel.CENTER);
 		notification_messageLabel.setFont(new Font("Serif", Font.BOLD, 44));
@@ -162,9 +162,9 @@ public class TriviaGameClient extends JFrame implements Runnable
 		button3.addActionListener(new ChoiceCListener());
 		button4.addActionListener(new ChoiceDListener());
 		
-		chatSubmit_TextArea = new JTextArea();
+		chatSubmit_TextArea = new JTextArea("hello world");
 		
-		JButton chat_button = new JButton();
+		JButton chat_button = new JButton("Submit");
 		chat_button.addActionListener(new ChatButtonListener());
 		
 		chat_TextArea = new JTextArea("");
@@ -172,11 +172,12 @@ public class TriviaGameClient extends JFrame implements Runnable
 		
 		JScrollPane chat_ScrollPane = new JScrollPane(chat_TextArea);
 		chat_ScrollPane.getVerticalScrollBar();
+		chat_ScrollPane.setSize(600, 300);
 
-		south_panel.setLayout(new GridLayout(2,2));
+		south_panel.setLayout(new BorderLayout());
 		west_panel.setLayout(new GridLayout(3,1));
 		north_panel.setLayout(new GridLayout(1,3));
-		center_panel.setLayout(new GridLayout(5,1));
+		center_panel.setLayout(new BorderLayout());
 		east_panel.setLayout(new GridLayout(3,1));
 		
 		north_panel.add(ip_label);
@@ -187,20 +188,30 @@ public class TriviaGameClient extends JFrame implements Runnable
 		west_panel.add(timer_messageLabel);
 		west_panel.add(big_empty_label);
 		
-		south_panel.add(button1);
-		south_panel.add(button2);
-		south_panel.add(button3);
-		south_panel.add(button4);
+		JPanel button_panel = new JPanel();
+		button_panel.setLayout(new GridLayout(2,2));
+		
+		button_panel.add(button1);
+		button_panel.add(button2);
+		button_panel.add(button3);
+		button_panel.add(button4);
+		
+		south_panel.add(button_panel, BorderLayout.SOUTH);
 		
 		east_panel.add(score_title_label);
 		east_panel.add(score_label);
 		east_panel.add(big_empty_label2);
 		
-		center_panel.add(question_messageText);
-		center_panel.add(chat_ScrollPane);
-		center_panel.add(chatSubmit_TextArea);
-		center_panel.add(chat_button);
-		center_panel.add(notification_messageLabel);
+		JPanel inner_south_panel = new JPanel();
+		inner_south_panel.setLayout(new GridLayout(2, 1));
+		inner_south_panel.add(chatSubmit_TextArea);
+		inner_south_panel.add(chat_button);
+		
+		south_panel.add(notification_messageLabel, BorderLayout.NORTH);
+		
+		center_panel.add(question_messageText, BorderLayout.NORTH);
+		center_panel.add(chat_ScrollPane, BorderLayout.CENTER);
+		center_panel.add(inner_south_panel, BorderLayout.SOUTH);
 		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
@@ -216,8 +227,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 	
 	public static void main(String[] args)
 	{
-
-		
 		//get port and host from client
 		
 		JTextField client_name = new JTextField();
@@ -359,7 +368,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 				if(response.equals("***END***"))
 				{
 					JOptionPane.showMessageDialog(null, screenname+", you scored "+score);
-					output_stream.println("/exit");
 					break;
 				}
 				
@@ -437,7 +445,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		public void actionPerformed(ActionEvent e)
 		{
 			output_stream.println("chat:"+screenname+": "+chatSubmit_TextArea.getText());
-			chatSubmit_TextArea.setText("");
+			chatSubmit_TextArea.setText("hello world");
 		}
 	}
 	

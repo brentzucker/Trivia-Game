@@ -54,6 +54,7 @@ public class TriviaGameServer
 		// Enter infinite running loop for accepting new connections and running the game.
 		while(true)
 		{
+			//checks to see if a player changed the amount of players playing
 			if(player_count % players_playing_this_game == 0) //this checks to see if enough clients are in the game to play
 				flag_all_players_in = true; 
 			
