@@ -247,7 +247,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		}
 		
 		int players = 0;
-		if(players_to_play.getText().length() >= 1 && Integer.parseInt(players_to_play.getText()) > 0)
+		if(players_to_play.getText().length() >= 1)
 		{
 			players = Integer.parseInt(players_to_play.getText());
 		}
@@ -266,8 +266,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 				 new Thread(new TriviaGameClient()).start();
 			}
 			 
-			if(players > 0)
-				output_stream.println("players:"+players);
+			output_stream.println("players:"+players
 			
 			//ready to play game
 			output_stream.println(":readytoplay:");

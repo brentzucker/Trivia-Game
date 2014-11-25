@@ -56,7 +56,6 @@ public class TriviaGameServer
 		{
 			if(player_count % players_playing_this_game == 0) //this checks to see if enough clients are in the game to play
 				flag_all_players_in = true; 
-			
 			try
 			{
 				client_socket = server_socket.accept();

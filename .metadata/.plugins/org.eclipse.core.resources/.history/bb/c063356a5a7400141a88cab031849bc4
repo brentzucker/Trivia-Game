@@ -223,9 +223,8 @@ public class TriviaGameClient extends JFrame implements Runnable
 		JTextField client_name = new JTextField();
 		JTextField client_host = new JTextField();
 		JTextField client_port = new JTextField();
-		JTextField players_to_play = new JTextField();
 		
-		Object[] fields = {"Screenname:", client_name, "Host IP:", client_host, "Port:", client_port, "Players:", players_to_play };
+		Object[] fields = {"Screenname:", client_name, "Host IP:", client_host, "Port:", client_port };
 		
 		JOptionPane.showConfirmDialog(null, fields, "Trivia Game Config - leave blank for default", JOptionPane.OK_OPTION);
 		
@@ -246,12 +245,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 			port = Integer.parseInt(client_port.getText());
 		}
 		
-		int players = 0;
-		if(players_to_play.getText().length() >= 1 && Integer.parseInt(players_to_play.getText()) > 0)
-		{
-			players = Integer.parseInt(players_to_play.getText());
-		}
-		
 		try
 		{
 			client_socket = new Socket(host, port);
@@ -261,16 +254,13 @@ public class TriviaGameClient extends JFrame implements Runnable
 			
 			output_line = new BufferedReader(new InputStreamReader(System.in));
 			
-			if(client_socket != null && output_stream != null && input_stream != null)
-			{
+			 if (client_socket != null && output_stream != null && input_stream != null)
+			 {
 				 new Thread(new TriviaGameClient()).start();
-			}
-			 
-			if(players > 0)
-				output_stream.println("players:"+players);
+			 }
 			
-			//ready to play game
-			output_stream.println(":readytoplay:");
+			 //ready to play game
+			 output_stream.println(":readytoplay:");
 			 
 			while(! is_closed)
 			{

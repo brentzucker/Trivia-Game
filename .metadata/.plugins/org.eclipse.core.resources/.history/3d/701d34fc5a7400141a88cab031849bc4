@@ -21,7 +21,7 @@ public class TriviaGameServer
 	public static int player_count =0;
 	public static boolean flag_next_question = false;
 	
-	public static int players_playing_this_game = 10; //this is how many players MUST BE running client side for the game to work
+	public static int players_playing_this_game = 1; //this is how many players MUST BE running client side for the game to work
 	
 	public static final Stack<TriviaGameClientThread> threads = new Stack<TriviaGameClientThread>();
 	public static final LinkedList<TriviaGameClientThread> running_threads = new LinkedList<TriviaGameClientThread>();
@@ -52,13 +52,8 @@ public class TriviaGameServer
 		//System.out.println(json);
 		
 		// Enter infinite running loop for accepting new connections and running the game.
-		while(true)
-		{
-			if(player_count % players_playing_this_game == 0) //this checks to see if enough clients are in the game to play
-				flag_all_players_in = true; 
-			
-			try
-			{
+		while(true){
+			try{
 				client_socket = server_socket.accept();
 				System.out.println(client_socket.getInetAddress() +":" + client_socket.getPort() + " has connected.");
 				
@@ -69,8 +64,8 @@ public class TriviaGameServer
 					output_stream.close();
 					client_socket.close();
 				}
-				else
-				{
+				
+				else{
 					helper = threads.pop();
 					helper = new TriviaGameClientThread(client_socket, game);
 					player_count++;
