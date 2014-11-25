@@ -172,7 +172,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		
 		JScrollPane chat_ScrollPane = new JScrollPane(chat_TextArea);
 		chat_ScrollPane.getVerticalScrollBar();
-
+		
 		south_panel.setLayout(new GridLayout(2,2));
 		west_panel.setLayout(new GridLayout(3,1));
 		north_panel.setLayout(new GridLayout(1,3));
