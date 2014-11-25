@@ -114,13 +114,4 @@ public class TriviaGameServer
 		System.out.println("SET after playing_this_game: "+players_playing_this_game);
 		System.out.println(flag_all_players_in);
 	}
-	
-	public static void resetGame()
-	{
-		flag_all_players_in = false;
-		player_answer_counter = 0;
-		player_count =0;
-		flag_next_question = false;
-		players_playing_this_game = 10;
-	}
 }

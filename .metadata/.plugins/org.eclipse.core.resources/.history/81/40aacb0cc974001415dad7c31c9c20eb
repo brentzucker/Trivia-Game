@@ -132,9 +132,6 @@ public class TriviaGameClientThread extends Thread{
 					helper = null;
 					TriviaGameServer.threads.push(helper);
 					System.out.println("Thread removed.");
-					
-					//reset game when game ends
-					TriviaGameServer.resetGame();
 				}
 			}
 			
