@@ -56,6 +56,8 @@ public class TriviaGameClient extends JFrame implements Runnable
 	
 	public Random rn; // generates a random number to guess an answer if the Timer runs out
 
+	public static int players = 0;//checks to see if player input has been changed
+	
 	public TriviaGameClient()
 	{
 		setTitle("Client GUI");
@@ -255,7 +257,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 			port = Integer.parseInt(client_port.getText());
 		}
 		
-		int players = 0;
+		
 		if(players_to_play.getText().length() >= 1 && Integer.parseInt(players_to_play.getText()) > 0)
 		{
 			players = Integer.parseInt(players_to_play.getText());
@@ -275,8 +277,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 				 new Thread(new TriviaGameClient()).start();
 			}
 			 
-			if(players > 0)
-				output_stream.println("players:"+players);
+
 			
 			//ready to play game
 			output_stream.println(":readytoplay:");
@@ -308,9 +309,20 @@ public class TriviaGameClient extends JFrame implements Runnable
 		//name_label.setText(screenname);
 		//port_label.setText(""+port);
 		
+		if(players > 0)
+		{
+			output_stream.println("players:"+players);
+			System.out.println("players:"+players);
+			output_stream.println(":readytoplay:");
+		}
+			
+		
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
+				
+				
+				
 				//The system.out.println can now be commented out
 				System.out.println(response);
 				
@@ -363,6 +375,11 @@ public class TriviaGameClient extends JFrame implements Runnable
 					//call action Listener for Wrong
 					notification_messageLabel.setText("Nice Try");
 					notification_messageLabel.setForeground(Color.RED);
+				}
+				
+				if(response.equals("Waiting for game to fill up..."))
+				{
+					notification_messageLabel.setText("Waiting for opponenets...");
 				}
 				
 				if(response.equals("***END***"))

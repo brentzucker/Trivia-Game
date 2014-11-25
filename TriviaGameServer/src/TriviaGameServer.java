@@ -55,8 +55,10 @@ public class TriviaGameServer
 		while(true)
 		{
 			//checks to see if a player changed the amount of players playing
-			if(player_count % players_playing_this_game == 0) //this checks to see if enough clients are in the game to play
+			if(player_count == players_playing_this_game) // == 0) //this checks to see if enough clients are in the game to play
 				flag_all_players_in = true; 
+			
+			System.out.println("playing_this_game: "+players_playing_this_game);
 			
 			try
 			{
@@ -77,8 +79,10 @@ public class TriviaGameServer
 					player_count++;
 					
 					//TEST
-					if(player_count % players_playing_this_game == 0) //this checks to see if enough clients are in the game to play
+					if(player_count == players_playing_this_game )//== 0) //this checks to see if enough clients are in the game to play
 						flag_all_players_in = true; 
+					
+					System.out.println("try playing_this_game: "+players_playing_this_game);
 					
 					helper.start();
 					running_threads.add(helper);
@@ -86,11 +90,28 @@ public class TriviaGameServer
 			}catch(IOException e){
 				e.printStackTrace();
 			}
+			
+			//checks to see if a player changed the amount of players playing
+			if(player_count == players_playing_this_game) // == 0) //this checks to see if enough clients are in the game to play
+				flag_all_players_in = true; 
+			
+			System.out.println("after playing_this_game: "+players_playing_this_game);
 		}
 	}
 	
 	public static int getPlayerAnswerCounter()
 	{
 		return player_answer_counter;
+	}
+	
+	public static void setPlayers_playing_this_game(int num)
+	{
+		players_playing_this_game = num;
+		
+		if(player_count == players_playing_this_game) // == 0) //this checks to see if enough clients are in the game to play
+			flag_all_players_in = true; 
+		
+		System.out.println("SET after playing_this_game: "+players_playing_this_game);
+		System.out.println(flag_all_players_in);
 	}
 }

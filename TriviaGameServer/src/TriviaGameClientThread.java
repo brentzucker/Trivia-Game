@@ -37,14 +37,24 @@ public class TriviaGameClientThread extends Thread{
 
 			while(true && !exit_loop)
 			{
+				//pregame messages from client
+				//helps set players playing this game
+				if((client_message = input_stream.readLine()).startsWith("players:"))
+				{
+					if(client_message.startsWith("players:"))
+					{
+						System.out.println(client_message.substring(8));
+						TriviaGameServer.setPlayers_playing_this_game(Integer.parseInt(client_message.substring(8)));
+					}
+				}
+				
+				System.out.println(!g1.question_stack.empty() + " && " + TriviaGameServer.flag_all_players_in);
+				
 				while(!g1.question_stack.empty() && TriviaGameServer.flag_all_players_in)
 				{
 					if((client_message = input_stream.readLine()) != null)
 					{
-						if(client_message.startsWith("players:"))
-						{
-							TriviaGameServer.players_playing_this_game = Integer.parseInt(client_message.substring(8));
-						}
+						System.out.println("client_message"+client_message);
 						
 						//checks to see if chat message
 						if(client_message.startsWith("chat:"))
