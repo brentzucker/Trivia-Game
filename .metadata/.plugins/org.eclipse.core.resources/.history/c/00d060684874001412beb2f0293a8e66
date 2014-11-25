@@ -324,9 +324,9 @@ public class TriviaGameClient extends JFrame implements Runnable
 					notification_messageLabel.setForeground(Color.RED);
 				}
 				
-				if(response.equals("***END***"))
+				if(response.startsWith("***END***"))
 				{
-					JOptionPane.showMessageDialog(null, screenname+", you scored "+score);
+					JFrame.EXIT_ON_CLOSE;
 					break;
 				}
 				
@@ -343,6 +343,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 
 					count = 0;
 				}
+				
+				if(response.equals("***END***"))
+					break;
+				
 			}
 			is_closed = true;
 			

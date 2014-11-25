@@ -343,6 +343,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 
 					count = 0;
 				}
+				
+				if(response.equals("***END***"))
+					break;
+				
 			}
 			is_closed = true;
 			
