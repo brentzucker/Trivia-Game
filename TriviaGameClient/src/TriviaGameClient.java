@@ -320,11 +320,15 @@ public class TriviaGameClient extends JFrame implements Runnable
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
-				
-				
-				
+
 				//The system.out.println can now be commented out
 				System.out.println(response);
+				
+				//resets notification message label when game starts
+				if(response.contains("?") && notification_messageLabel.getText().contains("Waiting"))
+				{
+					notification_messageLabel.setText(" ");
+				}
 				
 				if(response.contains("?"))
 				{
