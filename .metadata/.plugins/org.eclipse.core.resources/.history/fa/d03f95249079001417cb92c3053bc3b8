@@ -9,7 +9,10 @@ import java.util.ListIterator;
 import com.google.gson.Gson;
 
 public class TriviaGameServer
-{	
+{
+	//server output stream
+	public static PrintStream server_output_stream;
+	
 	// Load Server configuration
 	private static final TriviaGameServerConfig server_config = TriviaGameServerConfigLoader.loadServerConfig();
 	
@@ -105,8 +108,6 @@ public class TriviaGameServer
 		while(iterator.hasNext())
 		{
 			TriviaGameClientThread client_thread = iterator.next();
-			
-			client_thread.output_stream.println(send_str);
 		}
 	}
 }

@@ -4,12 +4,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Stack;
-import java.util.ListIterator;
 
 import com.google.gson.Gson;
 
 public class TriviaGameServer
-{	
+{
+	//server output stream
+	public static PrintStream server_output_stream;
+	
 	// Load Server configuration
 	private static final TriviaGameServerConfig server_config = TriviaGameServerConfigLoader.loadServerConfig();
 	
@@ -54,14 +56,12 @@ public class TriviaGameServer
 				client_socket = server_socket.accept();
 				System.out.println(client_socket.getInetAddress() +":" + client_socket.getPort() + " has connected.");
 				
-				
+				server_output_stream = new PrintStream(client_socket.getOutputStream());
 				
 				if(threads.isEmpty())
 				{
-					PrintStream output_stream = new PrintStream(client_socket.getOutputStream());
-					
-					output_stream.println("Game is full. Try Later.");
-					output_stream.close();
+					server_output_stream.println("Game is full. Try Later.");
+					server_output_stream.close();
 					client_socket.close();
 				}	
 				else
@@ -96,17 +96,5 @@ public class TriviaGameServer
 		player_answer_counter = 0;
 		player_count =0;
 		flag_next_question = false;
-	}
-	
-	public static void sendToClients(String send_str)
-	{
-		ListIterator <TriviaGameClientThread> iterator = running_threads.listIterator();
-		
-		while(iterator.hasNext())
-		{
-			TriviaGameClientThread client_thread = iterator.next();
-			
-			client_thread.output_stream.println(send_str);
-		}
 	}
 }

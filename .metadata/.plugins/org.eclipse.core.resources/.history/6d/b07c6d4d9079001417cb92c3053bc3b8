@@ -6,13 +6,12 @@ import java.net.Socket;
 import java.util.Timer;
 
 
-public class TriviaGameClientThread extends Thread
-{
+public class TriviaGameClientThread extends Thread{
 	// Load Server configuration
 		private static final TriviaGameServerConfig server_config = TriviaGameServerConfigLoader.loadServerConfig();
 		
 		private BufferedReader input_stream = null;
-		public PrintStream output_stream = null;
+		private PrintStream output_stream = null;
 		private Socket client_socket = null;
 		public GameObject g1;
 		
@@ -46,8 +45,7 @@ public class TriviaGameClientThread extends Thread
 						if(client_message.startsWith("chat:"))
 						{
 							System.out.println(client_message);
-							
-							TriviaGameServer.sendToClients(client_message);
+							TriviaGameServer.server_output_stream.println(client_message);
 						}
 						
 						if(client_message.equalsIgnoreCase(":readytoplay:"))

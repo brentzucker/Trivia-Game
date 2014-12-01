@@ -106,7 +106,7 @@ public class TriviaGameServer
 		{
 			TriviaGameClientThread client_thread = iterator.next();
 			
-			client_thread.output_stream.println(send_str);
+			PrintStream client_thread_output_stream = client_thread.output_stream(send_str);
 		}
 	}
 }

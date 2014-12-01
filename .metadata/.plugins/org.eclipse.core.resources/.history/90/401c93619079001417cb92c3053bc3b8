@@ -46,8 +46,7 @@ public class TriviaGameClientThread extends Thread
 						if(client_message.startsWith("chat:"))
 						{
 							System.out.println(client_message);
-							
-							TriviaGameServer.sendToClients(client_message);
+							TriviaGameServer.server_output_stream.println(client_message);
 						}
 						
 						if(client_message.equalsIgnoreCase(":readytoplay:"))
