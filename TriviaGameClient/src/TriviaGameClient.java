@@ -28,7 +28,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 	
 	private static boolean is_closed = false;
    
-	public static JPanel button_panel = new JPanel();
 	public static JButton button[] = new JButton[4];
 	
 	public static JTextArea chatSubmit_TextArea;
@@ -70,6 +69,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		JPanel center_panel = new JPanel();
 		JPanel south_panel = new JPanel();
 		
+		//creates question text component
 		question_messageText = new JTextArea(client_question);
 		question_messageText.setEditable(false);
 		question_messageText.setAlignmentX(CENTER_ALIGNMENT);
@@ -78,32 +78,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		question_messageText.setWrapStyleWord(true);
 		question_messageText.setForeground(Color.BLACK);
 		question_messageText.setBackground(getBackground());
-		
-		JLabel big_empty_label = new JLabel("    ");
-		JLabel big_empty_label2 = new JLabel("    ");
-		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
-		big_empty_label2.setFont(new Font("Serif", Font.BOLD, 120));
-		timer_messageLabel = new JLabel("10");
-		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
-		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
-		timer_messageLabel.setVerticalAlignment(JLabel.TOP);
-		
-		//timer title label
-		JLabel timer_title_label = new JLabel("Time Left");
-		timer_title_label.setFont(new Font("Serif", Font.ITALIC, 24));
-		timer_title_label.setVerticalAlignment(JLabel.BOTTOM);
-		timer_title_label.setHorizontalAlignment(JLabel.CENTER);
-		
-		//score title label
-		JLabel score_title_label = new JLabel("Score");
-		score_title_label.setFont(new Font("Serif", Font.ITALIC, 24));
-		score_title_label.setVerticalAlignment(JLabel.BOTTOM);
-		score_title_label.setHorizontalAlignment(JLabel.CENTER);
-		score_label.setVerticalAlignment(JLabel.TOP);
-		score_label.setFont(new Font("Serif", Font.BOLD, 120));
-		score_label.setHorizontalAlignment(JLabel.CENTER);
-		score_label.setForeground(Color.getHSBColor(52, 100, 67));
-		
+				
 		notification_messageLabel = new JLabel(" ");
 		notification_messageLabel.setVerticalAlignment(JLabel.BOTTOM);
 		notification_messageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -116,51 +91,36 @@ public class TriviaGameClient extends JFrame implements Runnable
 		name_label.setHorizontalAlignment(JLabel.CENTER);
 		port_label.setHorizontalAlignment(JLabel.RIGHT);
 		
-		//build multiple choice buttons
-		buildMultipleChoiceButtonsPanel();
+		//build score panel
+		JPanel score_panel = buildScorePanel();
 		
-		chatSubmit_TextArea = new JTextArea("hello world");
+		//build timer panel
+		JPanel timer_panel = buildTimerPanel();
 		
-		JButton chat_button = new JButton("Submit");
-		chat_button.addActionListener(new ChatButtonListener());
+		//build multiple choice buttons panel
+		JPanel button_panel = buildMultipleChoiceButtonsPanel();
 		
-		chat_TextArea = new JTextArea("");
-		chat_TextArea.setEditable(false);
-		
-		JScrollPane chat_ScrollPane = new JScrollPane(chat_TextArea);
-		chat_ScrollPane.getVerticalScrollBar();
-		chat_ScrollPane.setSize(600, 300);
+		//build chat panel 
+		JPanel chat_panel = buildChatPanel();
 
 		south_panel.setLayout(new BorderLayout());
-		west_panel.setLayout(new GridLayout(3,1));
+		west_panel.setLayout(new FlowLayout());
 		north_panel.setLayout(new GridLayout(1,3));
 		center_panel.setLayout(new BorderLayout());
-		east_panel.setLayout(new GridLayout(3,1));
+		east_panel.setLayout(new FlowLayout());
 		
 		north_panel.add(ip_label);
 		north_panel.add(name_label);
 		north_panel.add(port_label);
 		
-		west_panel.add(timer_title_label);
-		west_panel.add(timer_messageLabel);
-		west_panel.add(big_empty_label);
-		
+		south_panel.add(notification_messageLabel, BorderLayout.NORTH);
 		south_panel.add(button_panel, BorderLayout.SOUTH);
 		
-		east_panel.add(score_title_label);
-		east_panel.add(score_label);
-		east_panel.add(big_empty_label2);
-		
-		JPanel inner_south_panel = new JPanel();
-		inner_south_panel.setLayout(new GridLayout(2, 1));
-		inner_south_panel.add(chatSubmit_TextArea);
-		inner_south_panel.add(chat_button);
-		
-		south_panel.add(notification_messageLabel, BorderLayout.NORTH);
+		east_panel.add(score_panel);
+		west_panel.add(timer_panel);
 		
 		center_panel.add(question_messageText, BorderLayout.NORTH);
-		center_panel.add(chat_ScrollPane, BorderLayout.CENTER);
-		center_panel.add(inner_south_panel, BorderLayout.SOUTH);
+		center_panel.add(chat_panel, BorderLayout.CENTER);
 		
 		add(south_panel, BorderLayout.SOUTH);
 		add(north_panel, BorderLayout.NORTH);
@@ -436,8 +396,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 	    }
 	}
     
-	public void buildMultipleChoiceButtonsPanel()
+	public JPanel buildMultipleChoiceButtonsPanel()
 	{
+		JPanel button_panel = new JPanel(new GridLayout(2,2));
+		
 		try //tries to find image for button
 		{
 			Image img = ImageIO.read(getClass().getResource("button.jpg"));
@@ -470,6 +432,84 @@ public class TriviaGameClient extends JFrame implements Runnable
 		//adds each button to the panel
 		for(int j=0; j < button.length; j++)
 			button_panel.add(button[j]);
+		
+		return button_panel;
 	}
 	
+	public JPanel buildTimerPanel()
+	{
+		JPanel timer_panel = new JPanel(new GridLayout(3,1));
+		
+		//timer title label
+		JLabel timer_title_label = new JLabel("Time Left");
+		timer_title_label.setFont(new Font("Serif", Font.ITALIC, 24));
+		timer_title_label.setVerticalAlignment(JLabel.BOTTOM);
+		timer_title_label.setHorizontalAlignment(JLabel.CENTER);
+		
+		timer_messageLabel = new JLabel("10");
+		timer_messageLabel.setFont(new Font("Serif", Font.BOLD, 120));
+		timer_messageLabel.setHorizontalAlignment(JLabel.CENTER);
+		timer_messageLabel.setVerticalAlignment(JLabel.TOP);
+		
+		//formats panel to look better
+		JLabel big_empty_label = new JLabel("    ");
+		big_empty_label.setFont(new Font("Serif", Font.BOLD, 120));
+		
+		timer_panel.add(timer_title_label);
+		timer_panel.add(timer_messageLabel);
+		timer_panel.add(big_empty_label);
+		
+		return timer_panel;
+	}
+	
+	public JPanel buildScorePanel()
+	{
+		JPanel score_panel = new JPanel(new GridLayout(3,1));
+		
+		//score title label
+		JLabel score_title_label = new JLabel("Score");
+		score_title_label.setFont(new Font("Serif", Font.ITALIC, 24));
+		score_title_label.setVerticalAlignment(JLabel.BOTTOM);
+		score_title_label.setHorizontalAlignment(JLabel.CENTER);
+		
+		score_label.setVerticalAlignment(JLabel.TOP);
+		score_label.setFont(new Font("Serif", Font.BOLD, 120));
+		score_label.setHorizontalAlignment(JLabel.CENTER);
+		score_label.setForeground(Color.getHSBColor(52, 100, 67));
+		
+		JLabel big_empty_label2 = new JLabel("    ");
+		big_empty_label2.setFont(new Font("Serif", Font.BOLD, 120));
+		
+		score_panel.add(score_title_label);
+		score_panel.add(score_label);
+		score_panel.add(big_empty_label2);
+		
+		return score_panel;
+	}
+	
+	public JPanel buildChatPanel()
+	{
+		JPanel chat_panel = new JPanel(new BorderLayout());
+		chatSubmit_TextArea = new JTextArea("hello world");
+		
+		JButton chat_button = new JButton("Submit");
+		chat_button.addActionListener(new ChatButtonListener());
+		
+		chat_TextArea = new JTextArea("");
+		chat_TextArea.setEditable(false);
+		
+		JScrollPane chat_ScrollPane = new JScrollPane(chat_TextArea);
+		chat_ScrollPane.getVerticalScrollBar();
+		chat_ScrollPane.setSize(600, 300);
+		
+		JPanel inner_south_panel = new JPanel();
+		inner_south_panel.setLayout(new GridLayout(2, 1));
+		inner_south_panel.add(chatSubmit_TextArea);
+		inner_south_panel.add(chat_button);
+		
+		chat_panel.add(chat_ScrollPane, BorderLayout.CENTER);
+		chat_panel.add(inner_south_panel, BorderLayout.SOUTH);
+		
+		return chat_panel;
+	}
 }
