@@ -325,8 +325,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 		}
 		*/
 		
-		//output_stream.println(":readytoplay:");
-		
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
@@ -384,7 +382,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 					notification_messageLabel.setForeground(Color.RED);
 				}
 				
-				/*
 				if(response.equals("Waiting for game to fill up..."))
 				{
 					notification_messageLabel.setText("Waiting for opponenets...");
@@ -400,7 +397,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 					}
 					output_stream.println(":readytoplay:");
 				}
-				*/
 				
 				if(response.equals("***END***"))
 				{
