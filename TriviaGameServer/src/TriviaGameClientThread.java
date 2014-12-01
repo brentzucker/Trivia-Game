@@ -50,13 +50,20 @@ public class TriviaGameClientThread extends Thread
 							TriviaGameServer.sendToClients(client_message);
 						}
 						
+						//checks to see if score update
+						if(client_message.startsWith("score:"))
+						{
+							System.out.println(client_message);
+							
+							TriviaGameServer.updateScores(client_socket.getInetAddress()+"-"+client_message.substring(6));
+						}
+						
 						if(client_message.equalsIgnoreCase(":readytoplay:"))
 						{
 							ready_to_play = true;
 							
 							g1.nextQuestion();
 							output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
-							
 						}
 						
 						//Checks to see if client_message is a multiple choice answer
@@ -74,7 +81,6 @@ public class TriviaGameClientThread extends Thread
 						
 							g1.nextQuestion();
 							output_stream.println(g1.current_question.question+ "\n"+g1.current_question.choicesToString());
-						
 						}
 						
 						if(client_message.equals("/exit"))
@@ -86,6 +92,7 @@ public class TriviaGameClientThread extends Thread
 						exit_loop = true;
 						break;
 					}
+					
 					
 					while(!TriviaGameServer.flag_next_question)
 					{
@@ -101,11 +108,16 @@ public class TriviaGameClientThread extends Thread
 						TriviaGameServer.player_answer_counter = TriviaGameServer.getPlayerAnswerCounter();
 						
 						//checks to see if everyone has answered
-						if(TriviaGameServer.player_answer_counter%TriviaGameServer.player_count == 0)
+						if(TriviaGameServer.player_answer_counter % TriviaGameServer.player_count  == 0)
+						{
 							TriviaGameServer.flag_next_question = true;
+							TriviaGameServer.player_answer_counter = 0;
+						}
+							
 					}
+					
 
-					TriviaGameServer.flag_next_question = false;
+					TriviaGameServer.flag_next_question = true;
 				}
 			}
 	
