@@ -28,8 +28,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 	
 	private static boolean is_closed = false;
    
-	public static JPanel button_panel = new JPanel();
-	public static JButton button[] = new JButton[4];
+	public static JButton button1;
+	public static JButton button2;
+	public static JButton button3;
+	public static JButton button4;
 	
 	public static JTextArea chatSubmit_TextArea;
 	public static JTextArea chat_TextArea;
@@ -117,7 +119,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		port_label.setHorizontalAlignment(JLabel.RIGHT);
 		
 		//build multiple choice buttons
-		buildMultipleChoiceButtonsPanel();
+		this.buildMultipleChoiceButtons();
 		
 		chatSubmit_TextArea = new JTextArea("hello world");
 		
@@ -144,6 +146,14 @@ public class TriviaGameClient extends JFrame implements Runnable
 		west_panel.add(timer_title_label);
 		west_panel.add(timer_messageLabel);
 		west_panel.add(big_empty_label);
+		
+		JPanel button_panel = new JPanel();
+		button_panel.setLayout(new GridLayout(2,2));
+		
+		button_panel.add(button1);
+		button_panel.add(button2);
+		button_panel.add(button3);
+		button_panel.add(button4);
 		
 		south_panel.add(button_panel, BorderLayout.SOUTH);
 		
@@ -279,28 +289,28 @@ public class TriviaGameClient extends JFrame implements Runnable
 					
 				if(response.startsWith("A:"))
 				{
-					button[0].setText(response.substring(3));
+					button1.setText(response.substring(3));
 					client_choices[0] = response;
 					count++;
 				}
 					
 				if(response.startsWith("B:"))
 				{
-					button[1].setText(response.substring(3));
+					button2.setText(response.substring(3));
 					client_choices[1] = response;
 					count++;
 				}
 					
 				if(response.startsWith("C:"))
 				{
-					button[2].setText(response.substring(3));
+					button3.setText(response.substring(3));
 					client_choices[2] = response;
 					count++;
 				}	
 					
 				if(response.startsWith("D:"))
 				{
-					button[3].setText(response.substring(3));
+					button4.setText(response.substring(3));
 					client_choices[3] = response;
 					count++;
 				}
@@ -436,40 +446,55 @@ public class TriviaGameClient extends JFrame implements Runnable
 	    }
 	}
     
-	public void buildMultipleChoiceButtonsPanel()
+	public void buildMultipleChoiceButtons()
 	{
+		
+		String choice_A = client_choices[0];
+		String choice_B = client_choices[1];
+		String choice_C = client_choices[2];
+		String choice_D = client_choices[3];
+
 		try //tries to find image for button
 		{
 			Image img = ImageIO.read(getClass().getResource("button.jpg"));
 			Image scaled_img = img.getScaledInstance( 400, 50, Image.SCALE_SMOOTH);
 			ImageIcon button_icon = new ImageIcon(scaled_img);
 			
-			//loops through each multiple choice button
-			for(int i=0; i < button.length; i++)
-			{
-				button[i] = new JButton(client_choices[i], button_icon);
-				button[i].setHorizontalTextPosition(JButton.CENTER);
-				button[i].setVerticalTextPosition(JButton.CENTER);
-				button[i].setFont(new Font("Serif", Font.PLAIN, 24));
-				button[i].setForeground(Color.lightGray);
+			button1 = new JButton(choice_A, button_icon);
+			button2 = new JButton(choice_B, button_icon);
+			button3 = new JButton(choice_C, button_icon);
+			button4 = new JButton(choice_D, button_icon);
+			
+			button1.setHorizontalTextPosition(JButton.CENTER);
+			button1.setVerticalTextPosition(JButton.CENTER);
+			button2.setHorizontalTextPosition(JButton.CENTER);
+			button2.setVerticalTextPosition(JButton.CENTER);
+			button3.setHorizontalTextPosition(JButton.CENTER);
+			button3.setVerticalTextPosition(JButton.CENTER);
+			button4.setHorizontalTextPosition(JButton.CENTER);
+			button4.setVerticalTextPosition(JButton.CENTER);
+			
+			button1.setFont(new Font("Serif", Font.PLAIN, 24));
+			button2.setFont(new Font("Serif", Font.PLAIN, 24));
+			button3.setFont(new Font("Serif", Font.PLAIN, 24));
+			button4.setFont(new Font("Serif", Font.PLAIN, 24));
+			
+			button1.setForeground(Color.lightGray);
+			button2.setForeground(Color.lightGray);
+			button3.setForeground(Color.lightGray);
+			button4.setForeground(Color.lightGray);
 				
-			}
 		}
 		catch(IOException ex)
 		{
 			
 		}
 		
-		button[0].addActionListener(new ChoiceAListener());
-		button[1].addActionListener(new ChoiceBListener());
-		button[2].addActionListener(new ChoiceCListener());
-		button[3].addActionListener(new ChoiceDListener());
-		
-		button_panel.setLayout(new GridLayout(2,2));
-		
-		//adds each button to the panel
-		for(int j=0; j < button.length; j++)
-			button_panel.add(button[j]);
+		button1.addActionListener(new ChoiceAListener());
+		button2.addActionListener(new ChoiceBListener());
+		button3.addActionListener(new ChoiceCListener());
+		button4.addActionListener(new ChoiceDListener());
+
 	}
 	
 }

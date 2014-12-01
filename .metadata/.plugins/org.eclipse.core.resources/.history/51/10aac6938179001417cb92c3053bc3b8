@@ -30,6 +30,10 @@ public class TriviaGameClient extends JFrame implements Runnable
    
 	public static JPanel button_panel = new JPanel();
 	public static JButton button[] = new JButton[4];
+	public static JButton button1;
+	public static JButton button2;
+	public static JButton button3;
+	public static JButton button4;
 	
 	public static JTextArea chatSubmit_TextArea;
 	public static JTextArea chat_TextArea;
@@ -117,7 +121,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 		port_label.setHorizontalAlignment(JLabel.RIGHT);
 		
 		//build multiple choice buttons
-		buildMultipleChoiceButtonsPanel();
+		this.buildMultipleChoiceButtons();
 		
 		chatSubmit_TextArea = new JTextArea("hello world");
 		
