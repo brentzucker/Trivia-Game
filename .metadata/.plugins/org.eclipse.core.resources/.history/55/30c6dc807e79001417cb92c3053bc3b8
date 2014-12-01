@@ -312,16 +312,26 @@ public class TriviaGameClient extends JFrame implements Runnable
 		String response;
 		int count = 0;
 		
+		//ip_label.setText(host);
+		//name_label.setText(screenname);
+		//port_label.setText(""+port);
+		
+		/*
+		if(players > 0)
+		{
+			output_stream.println("players:"+players);
+			System.out.println("players:"+players);
+			
+		}
+		*/
+		
+		//output_stream.println(":readytoplay:");
+		
 		try{
 			while((response = input_stream.readLine()) != null)
 			{
 				//The system.out.println can now be commented out
 				System.out.println(response);
-				
-				if(notification_messageLabel.getText().startsWith("Waiting") && response.contains("?"))
-				{
-					notification_messageLabel.setText(" ");
-				}
 				
 				if(response.contains("?"))
 				{
@@ -358,11 +368,6 @@ public class TriviaGameClient extends JFrame implements Runnable
 					count++;
 				}
 				
-				if(response.startsWith("Waiting"))
-				{
-					notification_messageLabel.setText("Waiting for Opponent...");
-				}
-				
 				if(response.startsWith("Correct!"))
 				{
 					//call action Listener for correct
@@ -378,6 +383,24 @@ public class TriviaGameClient extends JFrame implements Runnable
 					notification_messageLabel.setText("Nice Try");
 					notification_messageLabel.setForeground(Color.RED);
 				}
+				
+				/*
+				if(response.equals("Waiting for game to fill up..."))
+				{
+					notification_messageLabel.setText("Waiting for opponenets...");
+					boolean waiting = true; 
+					while(waiting)
+					{
+						if(response.equals(":readytoplay:"))
+						{
+							waiting = false; 
+							System.out.println(response);
+							break;
+						}
+					}
+					output_stream.println(":readytoplay:");
+				}
+				*/
 				
 				if(response.equals("***END***"))
 				{
