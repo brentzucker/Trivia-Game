@@ -94,5 +94,6 @@ public class TriviaGameServer
 		player_answer_counter = 0;
 		player_count =0;
 		flag_next_question = false;
+		players_playing_this_game = 10;
 	}
 }

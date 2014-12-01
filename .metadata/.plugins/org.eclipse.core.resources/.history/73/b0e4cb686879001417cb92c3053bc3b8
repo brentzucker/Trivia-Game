@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Stack;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 public class TriviaGameServer
 {
@@ -45,10 +45,10 @@ public class TriviaGameServer
 		}
 		
 		GameObject game = new GameObject();
-
+/*
 		Gson g = new Gson();
 		String json = g.toJson(game);
-		
+*/		
 		//System.out.println(json);
 		
 		// Enter infinite running loop for accepting new connections and running the game.
@@ -86,13 +86,5 @@ public class TriviaGameServer
 	public static int getPlayerAnswerCounter()
 	{
 		return player_answer_counter;
-	}
-	
-	public static void resetGame()
-	{
-		flag_all_players_in = false;
-		player_answer_counter = 0;
-		player_count =0;
-		flag_next_question = false;
 	}
 }
