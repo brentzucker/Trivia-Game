@@ -129,6 +129,6 @@ public class TriviaGameServer
 		
 		scores_map.descendingMap();
 		
-		sendToClients("scoreboard:"+scores_map.toString());
+		sendToClients("scores:"+scores_map.toString());
 	}
 }

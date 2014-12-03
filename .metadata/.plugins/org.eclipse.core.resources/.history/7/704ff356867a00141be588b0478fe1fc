@@ -294,7 +294,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 				
 				if(response.equals("***END***"))
 				{
-					JOptionPane.showMessageDialog(null, screenname+", you scored "+score + "\n"+scoreboard.substring(3, scoreboard.length()-1));
+					JOptionPane.showMessageDialog(null, screenname+", you scored "+score);
 					break;
 				}
 				
@@ -311,7 +311,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 				{
 					//System.out.println(Integer.parseInt(response.substring(6)));
 					//output_stream.println("score:"+screenname+"-"+response.substring(6));
-					scoreboard = response.substring(10);
+					response.substring(10);
 				}
 				
 				
