@@ -63,17 +63,24 @@ public class GameObject
 	{
 		return current_question.choices[current_question.answer];
 	}
-	
+
 	//builds a list of 10 questions
 	private void buildQuestionStack()
 	{
-		Collections.shuffle(question_library);
-	
-		for(int i=0;i<10;i++)
+		//a set is used to make sure there are no dublicate questions 
+		TreeSet<Question> question_set = new TreeSet<Question>();
+
+		while(question_set.size() < 10)
 		{
-			question_stack.push(question_library.get(i));
-		}
+			Random rn = new Random();
 			
+			int index = rn.nextInt(question_library.size());
+
+			question_set.add(question_library.get(index));
+		}
+
+		question_stack.addAll(question_set);
+
 		System.out.println("There are now "+question_stack.size()+" questions in the question stack.");
 	}
 
