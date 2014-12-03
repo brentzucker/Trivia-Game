@@ -25,7 +25,7 @@ public class TriviaGameServer
 	public static int player_count =0;
 	public static boolean flag_next_question = false;
 	
-	public static int players_playing_this_game = 2; //this is how many players MUST BE running client side for the game to work
+	public static int players_playing_this_game = 1; //this is how many players MUST BE running client side for the game to work
 	
 	public static final Stack<TriviaGameClientThread> threads = new Stack<TriviaGameClientThread>();
 	public static final LinkedList<TriviaGameClientThread> running_threads = new LinkedList<TriviaGameClientThread>();

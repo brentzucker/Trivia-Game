@@ -136,15 +136,9 @@ public class TriviaGameClientThread extends Thread
 					helper = null;
 					TriviaGameServer.threads.push(helper);
 					System.out.println("Thread removed.");
-					//decrement player count if a player leaves
-					TriviaGameServer.player_count--;
 					
-					//reset game when game ends - game ends when there are no running threads 
-					if(TriviaGameServer.running_threads.size() == 0)
-					{
-						TriviaGameServer.resetGame();
-					}
-					
+					//reset game when game ends
+					TriviaGameServer.resetGame();
 				}
 			}
 			
