@@ -102,7 +102,6 @@ public class TriviaGameServer
 		player_count =0;
 		flag_next_question = false;
 		scores_map.clear();
-		sendToClients("scoreboard:"+scores_map.toString());
 	}
 	
 	//when called sends message to every client
