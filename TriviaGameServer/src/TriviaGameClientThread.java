@@ -35,13 +35,18 @@ public class TriviaGameClientThread extends Thread
 			output_stream.println("Waiting for game to fill up...");
 			boolean exit_loop = false;
 			boolean ready_to_play = false; //if client has contacted server with ":readytoplay:"
-
+			
+			top:
 			while(true && !exit_loop)
 			{
 				while(!g1.question_stack.empty() && TriviaGameServer.flag_all_players_in)
 				{					
 					if((client_message = input_stream.readLine()) != null)
 					{
+						if(client_message.equals("early_quit"))
+						{
+							break top;
+						}
 						//checks to see if chat message
 						if(client_message.startsWith("chat:"))
 						{
