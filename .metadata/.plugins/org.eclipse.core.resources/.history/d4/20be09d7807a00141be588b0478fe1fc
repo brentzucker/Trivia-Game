@@ -25,7 +25,7 @@ public class TriviaGameServer
 	public static int player_count =0;
 	public static boolean flag_next_question = false;
 	
-	public static int players_playing_this_game = 1; //this is how many players MUST BE running client side for the game to work
+	public static int players_playing_this_game = 2; //this is how many players MUST BE running client side for the game to work
 	
 	public static final Stack<TriviaGameClientThread> threads = new Stack<TriviaGameClientThread>();
 	public static final LinkedList<TriviaGameClientThread> running_threads = new LinkedList<TriviaGameClientThread>();
@@ -118,7 +118,6 @@ public class TriviaGameServer
 	
 	public static void updateScores(String ip_usr_score)
 	{
-		System.out.println(ip_usr_score);
 		String[] raw_array = ip_usr_score.split("-");
 		String key = raw_array[0];
 		int score = Integer.parseInt(raw_array[1]);
@@ -129,6 +128,6 @@ public class TriviaGameServer
 		
 		scores_map.descendingMap();
 		
-		sendToClients("chat:"+scores_map.toString());
+		sendToClients("scoreboard:"+scores_map.toString());
 	}
 }

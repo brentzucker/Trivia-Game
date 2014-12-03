@@ -1,6 +1,0 @@
-import javax.swing.JFrame;
-import java.awt.Container;
-
-public class ClientGUI {
-
-}

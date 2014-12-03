@@ -55,7 +55,7 @@ public class TriviaGameClientThread extends Thread
 						{
 							System.out.println(client_message);
 							
-							TriviaGameServer.updateScores(client_socket.getInetAddress()+client_message.substring(6));
+							TriviaGameServer.updateScores(client_socket.getInetAddress()+"-"+client_message.substring(6));
 						}
 						
 						if(client_message.equalsIgnoreCase(":readytoplay:"))

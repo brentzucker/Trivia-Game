@@ -279,7 +279,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 					notification_messageLabel.setText("EXCELLENT!");
 					notification_messageLabel.setForeground(Color.GREEN);
 					score += 10;
-					output_stream.println("score:"+screenname+"-"+score);
+					output_stream.println("score:"+score);
 					score_label.setText(""+score);
 				}
 				

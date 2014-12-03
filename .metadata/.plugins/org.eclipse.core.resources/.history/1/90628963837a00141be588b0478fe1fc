@@ -118,7 +118,6 @@ public class TriviaGameServer
 	
 	public static void updateScores(String ip_usr_score)
 	{
-		System.out.println(ip_usr_score);
 		String[] raw_array = ip_usr_score.split("-");
 		String key = raw_array[0];
 		int score = Integer.parseInt(raw_array[1]);
