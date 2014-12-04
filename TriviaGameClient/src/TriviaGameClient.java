@@ -238,7 +238,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 					notification_messageLabel.setText(" ");
 				}
 				
-				if(response.contains("?"))
+				if(response.endsWith("?"))
 				{
 					question_messageText.setText(response);
 					client_question = response;
@@ -381,7 +381,7 @@ public class TriviaGameClient extends JFrame implements Runnable
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			output_stream.println("chat:"+screenname+": "+chatSubmit_TextArea.getText());
+			output_stream.println("chat:"+screenname+": "+chatSubmit_TextArea.getText()+" ");
 			chatSubmit_TextArea.setText("hello world");
 		}
 	}

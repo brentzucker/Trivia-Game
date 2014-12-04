@@ -2,21 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="265" key="DIALOG_WIDTH"/>
-		<item value="184" key="DIALOG_Y_ORIGIN"/>
+		<item value="161" key="DIALOG_Y_ORIGIN"/>
+		<item value="35" key="DIALOG_X_ORIGIN"/>
 		<item value="399" key="DIALOG_HEIGHT"/>
-		<item value="588" key="DIALOG_X_ORIGIN"/>
 		<item value="1|.Helvetica Neue DeskInterface|11.0|0|COCOA|1|.HelveticaNeueDeskInterface-Regular" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="timer" key="selection"/>
+		<item value="END***" key="selection"/>
 		<list key="findhistory">
-			<item value="timer"/>
-			<item value="score"/>
+			<item value="end***"/>
+			<item value="player_count"/>
+			<item value="early_exit"/>
+			<item value="thread removed"/>
+			<item value="readytoplay"/>
+			<item value="scored"/>
+			<item value="congr"/>
+			<item value="thank"/>
 		</list>
 		<list key="replacehistory">
 		</list>
