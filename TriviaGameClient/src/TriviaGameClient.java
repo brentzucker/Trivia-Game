@@ -196,7 +196,11 @@ public class TriviaGameClient extends JFrame implements Runnable
 				 new Thread(new TriviaGameClient()).start();
 			}
 			 
-
+			if(players > 0)
+			{
+				output_stream.println("newplayercount:"+players);
+				System.out.println("newplayercount:"+players);
+			}
 			
 			//ready to play game
 			output_stream.println(":readytoplay:");
@@ -295,16 +299,10 @@ public class TriviaGameClient extends JFrame implements Runnable
 					notification_messageLabel.setForeground(Color.RED);
 				}
 				
-				if(response.equals("***END***"))
-				{
-					JOptionPane.showMessageDialog(null, screenname+", you scored "+score + "\n"+scoreboard.substring(3, scoreboard.length()-1));
-					break;
-				}
-				
 				//handle chat messages -- display in chat_TextArea
 				if(response.startsWith("chat:"))
 				{
-					chat_TextArea.append(response.substring(5));
+					chat_TextArea.append(response.substring(5, response.length()-1));
 					chat_TextArea.append("\n");
 				}
 				
@@ -317,6 +315,11 @@ public class TriviaGameClient extends JFrame implements Runnable
 					scoreboard = response.substring(10);
 				}
 				
+				//keeps track of new player count being changed
+				if(response.startsWith("newplayercount:"))
+				{
+					
+				}
 				
 				if(count-5 == 0)
 				{				
@@ -327,6 +330,12 @@ public class TriviaGameClient extends JFrame implements Runnable
 					timer.start(); 
 
 					count = 0;
+				}
+				
+				if(response.equals("***END***"))
+				{
+					JOptionPane.showMessageDialog(null, screenname+", you scored "+score + "\n"+scoreboard.substring(3, scoreboard.length()));
+					break;
 				}
 			}
 			is_closed = true;

@@ -63,6 +63,12 @@ public class TriviaGameClientThread extends Thread
 							TriviaGameServer.updateScores(client_socket.getInetAddress()+client_message.substring(6));
 						}
 						
+						//checks to see if player count has been changed
+						if(client_message.startsWith("newplayercount:"))
+						{
+							TriviaGameServer.updatePlayerCount(client_message);
+						}
+						
 						if(client_message.equalsIgnoreCase(":readytoplay:"))
 						{
 							ready_to_play = true;
@@ -97,8 +103,7 @@ public class TriviaGameClientThread extends Thread
 						exit_loop = true;
 						break;
 					}
-					
-					
+					/*
 					while(!TriviaGameServer.flag_next_question)
 					{
 						try
@@ -120,6 +125,7 @@ public class TriviaGameClientThread extends Thread
 						}
 							
 					}
+					*/
 					
 
 					TriviaGameServer.flag_next_question = true;
